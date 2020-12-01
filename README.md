@@ -1,6 +1,6 @@
 # Advent of Code 2020
 
-![Tests](https://github.com/ryanwinchester/advent-of-code-2020/workflows/Tests/badge.svg)
+[![Tests](https://github.com/ryanwinchester/advent-of-code-2020/workflows/Tests/badge.svg)](https://github.com/ryanwinchester/advent-of-code-2020/actions?query=workflow%3ATests)
 
 
 To test:
