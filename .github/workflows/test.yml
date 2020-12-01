@@ -35,15 +35,6 @@ jobs:
           deps-${{github.ref}}-
           deps-
 
-    - name: Restore Dialyzer PLT cache
-      uses: actions/cache@v1
-      id: plt-cache
-      with:
-        path: priv/plts
-        key: plt-${{runner.os}}-${{matrix.otp}}-${{matrix.elixir}}-${{hashFiles('lib/**/*.ex')}}
-        restore-keys: |
-          plt-${{runner.os}}-${{matrix.otp}}-${{matrix.elixir}}-
-
     - name: Install dependencies
       run: mix deps.get
 
@@ -54,12 +45,3 @@ jobs:
       run: mix compile
       env:
         MIX_ENV: test
-
-    - name: Create Dialyzer PLTs
-      if: steps.plt-cache.outputs.cache-hit != 'true'
-      run: |
-        mkdir -p priv/plts
-        mix dialyzer --plt
-
-    - name: Run Dialyzer
-      run: mix dialyzer
