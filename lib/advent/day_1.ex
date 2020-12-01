@@ -1,10 +1,23 @@
 defmodule Advent.Day1 do
+  @moduledoc """
+  --- Day 1: Report Repair ---
+
+  https://adventofcode.com/2020/day/1
+  """
+
+  @type filename :: String.t()
+
+  @type entries :: [integer()]
 
   @doc """
-  Take the list of expense entries to find the solution.
+  ## Part One
 
-  Accepts a filename of items or the list.
+  Find the two entries that sum to 2020 and then multiply those two numbers
+  together.
+
+  Accepts a filename of items or the list of entries.
   """
+  @spec part_1(filename | entries) :: integer()
   def part_1(filename) when is_binary(filename) do
     filename
     |> File.read!()

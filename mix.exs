@@ -7,6 +7,7 @@ defmodule Advent.MixProject do
       version: "0.1.0",
       elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
+      aliases: aliases(),
       deps: deps()
     ]
   end
@@ -22,6 +23,12 @@ defmodule Advent.MixProject do
   defp deps do
     [
       #
+    ]
+  end
+
+  defp aliases do
+    [
+      test: ["test --trace"]
     ]
   end
 end
