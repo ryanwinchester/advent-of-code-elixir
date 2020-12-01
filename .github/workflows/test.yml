@@ -1,0 +1,65 @@
+name: Tests
+
+on:
+  - push
+
+jobs:
+  test:
+
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup elixir
+      uses: actions/setup-elixir@v1
+      with:
+        elixir-version: 1.11.x
+        otp-version: 23.x
+
+    - name: Build cache
+      uses: actions/cache@v2
+      with:
+        path: _build
+        key: build-${{github.ref}}-${{ hashFiles('lib/**/*.ex') }}
+        restore-keys: |
+          deps-${{github.ref}}-
+            build-
+
+    - name: Deps cache
+      uses: actions/cache@v1
+      with:
+        path: deps
+        key: deps-${{github.ref}}-${{ hashFiles('mix.lock') }}
+        restore-keys: |
+          deps-${{github.ref}}-
+          deps-
+
+    - name: Restore Dialyzer PLT cache
+      uses: actions/cache@v1
+      id: plt-cache
+      with:
+        path: priv/plts
+        key: plt-${{runner.os}}-${{matrix.otp}}-${{matrix.elixir}}-${{hashFiles('lib/**/*.ex')}}
+        restore-keys: |
+          plt-${{runner.os}}-${{matrix.otp}}-${{matrix.elixir}}-
+
+    - name: Install dependencies
+      run: mix deps.get
+
+    - name: Check formatting
+      run: mix format --check-formatted
+
+    - name: Compile test env
+      run: mix compile
+      env:
+        MIX_ENV: test
+
+    - name: Create Dialyzer PLTs
+      if: steps.plt-cache.outputs.cache-hit != 'true'
+      run: |
+        mkdir -p priv/plts
+        mix dialyzer --plt
+
+    - name: Run Dialyzer
+      run: mix dialyzer
