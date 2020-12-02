@@ -1,5 +1,4 @@
 defmodule Advent.Day2 do
-
   @doc """
   Count valid passwords with the requirements.
 

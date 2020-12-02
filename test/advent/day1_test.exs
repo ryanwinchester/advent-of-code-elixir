@@ -13,7 +13,7 @@ defmodule Advent.Day1Test do
       |> String.split("\n", trim: true)
       |> Enum.map(&String.to_integer/1)
 
-    assert Day1.part_1(input) == 1015476
+    assert Day1.part_1(input) == 1_015_476
   end
 
   test "Part 2 - input file" do
@@ -24,6 +24,6 @@ defmodule Advent.Day1Test do
       |> String.split("\n", trim: true)
       |> Enum.map(&String.to_integer/1)
 
-    assert Day1.part_2(input) == 200878544
+    assert Day1.part_2(input) == 200_878_544
   end
 end
