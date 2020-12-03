@@ -35,36 +35,32 @@ defmodule Advent.Day2 do
 
   defp capture_matches(input) do
     Regex.named_captures(
-      ~r/^(?<rs>\d+)-(?<re>\d+) (?<l>[a-zA-Z]): (?<pass>[a-zA-Z]+)$/,
+      ~r/^(?<min>\d+)-(?<max>\d+) (?<letter>[a-zA-Z]): (?<pass>[a-zA-Z]+)$/,
       input
     )
   end
 
   defp check_password_part_1(input) do
     %{
-      "rs" => range_start,
-      "re" => range_end,
-      "l" => letter,
+      "min" => min,
+      "max" => max,
+      "letter" => letter,
       "pass" => password
     } = input
 
-    range_start = String.to_integer(range_start)
-    range_end = String.to_integer(range_end)
+    min = String.to_integer(min)
+    max = String.to_integer(max)
 
-    frequencies =
-      password
-      |> String.split("")
-      |> Enum.frequencies()
-      |> Map.get(letter, 0)
+    split_count = String.split(password, letter) |> Enum.count()
 
-    frequencies in range_start..range_end
+    (split_count - 1) in min..max
   end
 
   defp check_password_part_2(input) do
     %{
-      "rs" => position_1,
-      "re" => position_2,
-      "l" => letter,
+      "min" => position_1,
+      "max" => position_2,
+      "letter" => letter,
       "pass" => password
     } = input
 
