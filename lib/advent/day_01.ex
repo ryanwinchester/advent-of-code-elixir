@@ -1,4 +1,4 @@
-defmodule Advent.Day1 do
+defmodule Advent.Day01 do
   @moduledoc """
   --- Day 1: Report Repair ---
 
@@ -12,7 +12,7 @@ defmodule Advent.Day1 do
   ## Example
 
       iex> input = [1721, 979, 366, 299, 675, 1456]
-      iex> Day1.part_1(input)
+      iex> Day01.part_1(input)
       514579
 
   """
@@ -28,7 +28,7 @@ defmodule Advent.Day1 do
   ## Example
 
       iex> input = [1721, 979, 366, 299, 675, 1456]
-      iex> Day1.part_2(input)
+      iex> Day01.part_2(input)
       241861950
 
   """

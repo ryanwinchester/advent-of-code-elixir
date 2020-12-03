@@ -4,10 +4,10 @@ defmodule Advent.FileCase do
   using do
     quote do
       defp load_file(file) do
-      "../support/inputs/#{file}.txt"
-      |> Path.expand(__DIR__)
-      |> File.read!()
-      |> String.split("\n", trim: true)
+        "../support/inputs/#{file}.txt"
+        |> Path.expand(__DIR__)
+        |> File.read!()
+        |> String.split("\n", trim: true)
       end
     end
   end

@@ -1,11 +1,17 @@
-defmodule Advent.Day2 do
+defmodule Advent.Day02 do
+  @moduledoc """
+  --- Day 2: Password Philosophy ---
+
+  https://adventofcode.com/2020/day/2
+  """
+
   @doc """
   Count valid passwords with the requirements.
 
   ## Examples
 
       iex> input = ["1-3 a: abcde", "1-3 b: cdefg", "2-9 c: ccccccccc"]
-      iex> Advent.Day2.part_1(input)
+      iex> Day02.part_1(input)
       2
 
   """
@@ -22,7 +28,7 @@ defmodule Advent.Day2 do
   ## Examples
 
       iex> input = ["1-3 a: abcde", "1-3 b: cdefg", "2-9 c: ccccccccc"]
-      iex> Advent.Day2.part_2(input)
+      iex> Day02.part_2(input)
       1
 
   """
@@ -58,7 +64,7 @@ defmodule Advent.Day2 do
 
   defp count_occurences(substring, string) do
     split_count = String.split(string, substring) |> Enum.count()
-    (split_count - 1)
+    split_count - 1
   end
 
   defp check_password_part_2(input) do
