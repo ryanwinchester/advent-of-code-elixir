@@ -51,9 +51,14 @@ defmodule Advent.Day2 do
     min = String.to_integer(min)
     max = String.to_integer(max)
 
-    split_count = String.split(password, letter) |> Enum.count()
+    occurences = count_occurences(letter, password)
 
-    (split_count - 1) in min..max
+    occurences in min..max
+  end
+
+  defp count_occurences(substring, string) do
+    split_count = String.split(string, substring) |> Enum.count()
+    (split_count - 1)
   end
 
   defp check_password_part_2(input) do
