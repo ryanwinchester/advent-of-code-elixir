@@ -7,6 +7,12 @@ defmodule Advent.FileCase do
         "../support/inputs/#{file}.txt"
         |> Path.expand(__DIR__)
         |> File.read!()
+      end
+
+      defp load_file_lines(file) do
+        "../support/inputs/#{file}.txt"
+        |> Path.expand(__DIR__)
+        |> File.read!()
         |> String.split("\n", trim: true)
       end
     end
