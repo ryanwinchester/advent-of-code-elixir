@@ -28,7 +28,7 @@ defmodule Advent.Day08 do
     input
     |> Enum.map(&parse_instruction/1)
     |> Enum.with_index()
-    |> execute_instructions(0, 0, [])
+    |> interpret(0, 0, [])
     |> elem(1)
   end
 
@@ -58,26 +58,27 @@ defmodule Advent.Day08 do
 
     instructions
     |> Enum.filter(&should_toggle?/1)
-    |> Enum.unzip()
-    |> elem(1)
-    |> Enum.reduce_while(nil, &check_instructions(instructions, &1, &2))
+    |> Enum.map(&take_index/1)
+    |> Enum.reduce_while(nil, &fix_instructions(instructions, &1, &2))
   end
 
-  defp should_toggle?({{"nop", _}, _}), do: true
-  defp should_toggle?({{"jmp", _}, _}), do: true
+  defp take_index({_value, index}), do: index
+
+  defp should_toggle?({{:nop, _}, _}), do: true
+  defp should_toggle?({{:jmp, _}, _}), do: true
   defp should_toggle?(_), do: false
 
-  defp check_instructions(instructions, index, _acc) do
+  defp fix_instructions(instructions, index, _acc) do
     instructions = List.update_at(instructions, index, &toggle_instruction/1)
 
-    case execute_instructions(instructions, 0, 0, []) do
+    case interpret(instructions, 0, 0, []) do
       {:ok, acc} -> {:halt, acc}
       {:error, _acc} -> {:cont, nil}
     end
   end
 
-  defp toggle_instruction({{"nop", i}, index}), do: {{"jmp", i}, index}
-  defp toggle_instruction({{"jmp", i}, index}), do: {{"nop", i}, index}
+  defp toggle_instruction({{:nop, i}, index}), do: {{:jmp, i}, index}
+  defp toggle_instruction({{:jmp, i}, index}), do: {{:nop, i}, index}
 
   @doc """
   Execute an instruction from a list of instructions.
@@ -99,9 +100,9 @@ defmodule Advent.Day08 do
     immediately below it is executed next.
 
   """
-  def execute_instructions(instructions, index, acc, executed) do
+  def interpret(instructions, index, acc, seen) do
     cond do
-      index in executed ->
+      index in seen ->
         {:error, acc}
 
       index == Enum.count(instructions) ->
@@ -109,9 +110,14 @@ defmodule Advent.Day08 do
 
       true ->
         case Enum.at(instructions, index) do
-          {{"nop", _}, _i} -> execute_instructions(instructions, index + 1, acc, [index | executed])
-          {{"acc", n}, _i} -> execute_instructions(instructions, index + 1, acc + n, [index | executed])
-          {{"jmp", n}, _i} -> execute_instructions(instructions, index + n, acc, [index | executed])
+          {{:nop, _}, _i} ->
+            interpret(instructions, index + 1, acc, [index | seen])
+
+          {{:acc, n}, _i} ->
+            interpret(instructions, index + 1, acc + n, [index | seen])
+
+          {{:jmp, n}, _i} ->
+            interpret(instructions, index + n, acc, [index | seen])
         end
     end
   end
@@ -122,14 +128,14 @@ defmodule Advent.Day08 do
   ## Example
 
       iex> Day08.parse_instruction("acc +1")
-      {"acc", 1}
+      {:acc, 1}
 
       iex> Day08.parse_instruction("jmp -3")
-      {"jmp", -3}
+      {:jmp, -3}
 
   """
   def parse_instruction(instruction_string) do
     [instruction, value] = String.split(instruction_string, " ")
-    {instruction, String.to_integer(value)}
+    {String.to_atom(instruction), String.to_integer(value)}
   end
 end
