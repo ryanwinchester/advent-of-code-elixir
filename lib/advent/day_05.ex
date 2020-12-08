@@ -62,31 +62,14 @@ defmodule Advent.Day05 do
 
   """
   def seat_id(boarding_pass) do
-    row =
-      boarding_pass
-      |> String.slice(0..6)
-      |> find_place(0..127)
-
-    column =
-      boarding_pass
-      |> String.slice(7..9)
-      |> find_place(0..7)
-
-    row * 8 + column
-  end
-
-  defp find_place("", [row]), do: row
-
-  defp find_place(<<char::binary-size(1), rest::binary>>, range) do
-    polarity =
-      cond do
-        char in ~w(F L) -> 1
-        char in ~w(B R) -> -1
+    <<n::10>> =
+      for <<c::binary-size(1) <- boarding_pass>>, into: <<>> do
+        cond do
+          c in ~w(F L) -> <<0::1>>
+          c in ~w(B R) -> <<1::1>>
+        end
       end
 
-    take = div(Enum.count(range), 2)
-    half = Enum.take(range, take * polarity)
-
-    find_place(rest, half)
+    n
   end
 end
