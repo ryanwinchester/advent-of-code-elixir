@@ -30,6 +30,23 @@ defmodule Advent.Day10 do
     |> joltage_differences()
   end
 
+  defp joltage_differences(adapter_joltages) do
+    state = %{previous_joltage: 0, diffs_1: 0, diffs_3: 1}
+    joltage_differences(adapter_joltages, state)
+  end
+
+  defp joltage_differences([], %{diffs_1: diffs_1, diffs_3: diffs_3}), do: diffs_1 * diffs_3
+
+  defp joltage_differences([joltage | rest], state) do
+    case joltage - state.previous_joltage do
+      1 ->
+        joltage_differences(rest, %{state | previous_joltage: joltage, diffs_1: state.diffs_1 + 1})
+
+      3 ->
+        joltage_differences(rest, %{state | previous_joltage: joltage, diffs_3: state.diffs_3 + 1})
+    end
+  end
+
   @doc """
   Get the total number of distinct ways you can arrange the adapters to connect
   the charging outlet to your device.
@@ -50,43 +67,20 @@ defmodule Advent.Day10 do
 
   """
   def part_2(input) do
-    adapters =
-      input
-      |> Enum.map(&String.to_integer/1)
-      |> Enum.sort()
-
-    adapters = [0 | adapters] ++ [Enum.at(adapters, -1) + 3]
-
-    length = Enum.count(adapters)
-
-    paths = get_path_counts(adapters)
-
-    rabbit_hole(0, adapters, length, paths, %{})
+    input
+    |> Enum.map(&String.to_integer/1)
+    |> Enum.sort()
+    |> fix_adapters_list()
+    |> get_path_splits()
+    |> rabbit_hole(0, %{})
   end
 
-  defp rabbit_hole(index, adapters, length, paths, cache) do
-    case paths[index] do
-      [] ->
-        1
-
-      indexes ->
-        {total, _cache} =
-          Enum.reduce(indexes, {0, cache}, fn i, {total, cache} ->
-            case cache[i] do
-              nil ->
-                value = rabbit_hole(i, adapters, length, paths, cache)
-                {value + total, Map.put(cache, i, value)}
-
-              value ->
-                {value + total, cache}
-            end
-          end)
-
-        total
-    end
+  # Add 0 to the beginning and +3 to the end.
+  defp fix_adapters_list(adapters) do
+    [0 | adapters] ++ [Enum.at(adapters, -1) + 3]
   end
 
-  defp get_path_counts(adapters) do
+  defp get_path_splits(adapters) do
     length = Enum.count(adapters)
 
     adapters
@@ -108,20 +102,26 @@ defmodule Advent.Day10 do
     end)
   end
 
-  defp joltage_differences(adapter_joltages) do
-    state = %{previous_joltage: 0, diffs_1: 0, diffs_3: 1}
-    joltage_differences(adapter_joltages, state)
+  defp rabbit_hole(paths, index, cache) do
+    case paths[index] do
+      [] ->
+        1
+
+      indexes ->
+        indexes
+        |> Enum.reduce({0, cache}, &check_index(&1, &2, paths))
+        |> elem(0)
+    end
   end
 
-  defp joltage_differences([], %{diffs_1: diffs_1, diffs_3: diffs_3}), do: diffs_1 * diffs_3
+  defp check_index(index, {total, cache}, paths) do
+    case cache[index] do
+      nil ->
+        value = rabbit_hole(paths, index, cache)
+        {value + total, Map.put(cache, index, value)}
 
-  defp joltage_differences([joltage | rest], state) do
-    case joltage - state.previous_joltage do
-      1 ->
-        joltage_differences(rest, %{state | previous_joltage: joltage, diffs_1: state.diffs_1 + 1})
-
-      3 ->
-        joltage_differences(rest, %{state | previous_joltage: joltage, diffs_3: state.diffs_3 + 1})
+      value ->
+        {value + total, cache}
     end
   end
 end
