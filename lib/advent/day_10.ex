@@ -40,65 +40,70 @@ defmodule Advent.Day10 do
       iex> Day10.part_2(input)
       8
 
-      # iex> input = [
-      # ...>   "28", "33", "18", "42", "31", "14", "46", "20", "48", "47", "24",
-      # ...>   "23", "49", "45", "19", "38", "39", "11", "1", "32", "25", "35",
-      # ...>   "8", "17", "7", "9", "4", "2", "34", "10", "3"
-      # ...> ]
-      # iex> Day10.part_2(input)
-      # 19208
-
-      # [1, 4, 5, 6, 7, 10, 11, 12, 15, 16, 19]
-
-
-              1
-            1(n^0) + 2(n^1) + 1(n^2) + 1(n^3) = 8
-
-             2(x0^0) + 1(x1^1) + 1(x2^2) = 8; where x0 = 0, x1 = 1, x2 = 2
-
-            [2, 1, 1]
-            |> Enum.with_index()
-            |> Enum.reduce(0, fn {value, index} -> value * :math.pow(index, index) end)
-
-            n^n
-
-
-      #                      (*1)         (*2)                    (*3)
-      #     +1               +2           +1                       +1
-      #     0       1        4            5       6      7        10       11       12     15    16    19    22
-      #     |       |      / | \        /   \     |      |       /  \       |       |      |     |     |
-      #     i1     i4    i5  i6  i7    i6    i7   i7     i10   i11   i12    i12    i15    i16    i19   i22
+      iex> input = [
+      ...>   "28", "33", "18", "42", "31", "14", "46", "20", "48", "47", "24",
+      ...>   "23", "49", "45", "19", "38", "39", "11", "1", "32", "25", "35",
+      ...>   "8", "17", "7", "9", "4", "2", "34", "10", "3"
+      ...> ]
+      iex> Day10.part_2(input)
+      19208
 
   """
   def part_2(input) do
-    input
-    |> Enum.map(&String.to_integer/1)
-    |> Enum.sort()
-    |> get_nodes()
-    |> Enum.with_index()
-    |> Enum.reduce(0, fn {value, index}, total ->
-      value * :math.pow(index, index) + total
-    end)
+    adapters =
+      input
+      |> Enum.map(&String.to_integer/1)
+      |> Enum.sort()
+
+    adapters = [0 | adapters] ++ [Enum.at(adapters, -1) + 3]
+
+    length = Enum.count(adapters)
+
+    paths = get_path_counts(adapters)
+
+    rabbit_hole(0, adapters, length, paths, %{})
   end
 
-  defp get_nodes(adapters) do
+  defp rabbit_hole(index, adapters, length, paths, cache) do
+    case paths[index] do
+      [] -> 1
+
+      indexes ->
+        {total, _cache} =
+          Enum.reduce(indexes, {0, cache}, fn i, {total, cache} ->
+            case cache[i] do
+              nil ->
+                value = rabbit_hole(i, adapters, length, paths, cache)
+                {value + total, Map.put(cache, i, value)}
+
+              value ->
+                {value + total, cache}
+            end
+          end)
+
+        total
+    end
+  end
+
+  defp get_path_counts(adapters) do
     length = Enum.count(adapters)
 
     adapters
     |> Enum.with_index()
-    |> Enum.reduce([], fn {adapter, index}, new_branch_counts ->
-      new_branch_count =
+    |> Enum.reduce(%{}, fn {adapter, index}, acc ->
+      new_branch_indexes =
         adapters
+        |> Enum.with_index()
         |> Enum.slice(index + 1, length)
-        |> Enum.reduce_while(0, fn next_adapter, branch_count ->
+        |> Enum.reduce_while([], fn {next_adapter, i}, indexes ->
           if next_adapter - adapter <= 3 do
-            {:cont, branch_count + 1}
+            {:cont, [i | indexes]}
           else
-            {:halt, branch_count}
+            {:halt, indexes}
           end
         end)
 
-      [new_branch_count - 1 | new_branch_counts]
+      Map.put(acc, index, new_branch_indexes)
     end)
   end
 
