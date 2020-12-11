@@ -66,7 +66,8 @@ defmodule Advent.Day10 do
 
   defp rabbit_hole(index, adapters, length, paths, cache) do
     case paths[index] do
-      [] -> 1
+      [] ->
+        1
 
       indexes ->
         {total, _cache} =

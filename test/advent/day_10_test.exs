@@ -12,6 +12,6 @@ defmodule Advent.Day10Test do
 
   test "Part 2 - input file" do
     input = load_file_lines("day-10")
-    assert Day10.part_2(input) == 16198260678656
+    assert Day10.part_2(input) == 16_198_260_678_656
   end
 end

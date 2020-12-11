@@ -93,11 +93,7 @@ defmodule Advent.Day09 do
   defp matches?({number, index}, numbers, preamble_length) do
     previous = Enum.slice(numbers, index - preamble_length, preamble_length)
 
-    matches =
-      for x <- previous,
-          y <- previous,
-          x != y, x + y == number,
-          do: number
+    matches = for x <- previous, y <- previous, x != y, x + y == number, do: number
 
     Enum.count(matches) == 0
   end
@@ -123,5 +119,6 @@ defmodule Advent.Day09 do
     {min, max} = Enum.min_max(set)
     {:halt, min + max}
   end
+
   defp handle_check_set_result(_), do: {:cont, :not_found}
 end
