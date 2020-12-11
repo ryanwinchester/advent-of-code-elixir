@@ -54,7 +54,11 @@ defmodule Advent.Day10 do
               1
             1(n^0) + 2(n^1) + 1(n^2) + 1(n^3) = 8
 
-            1 + 2(x0^0) + 1(x1^1) + 1(x2^2) = 8; where x0 = 0, x1 = 1, x2 = 2
+             2(x0^0) + 1(x1^1) + 1(x2^2) = 8; where x0 = 0, x1 = 1, x2 = 2
+
+            [2, 1, 1]
+            |> Enum.with_index()
+            |> Enum.reduce(0, fn {value, index} -> value * :math.pow(index, index) end)
 
             n^n
 
@@ -70,83 +74,33 @@ defmodule Advent.Day10 do
     input
     |> Enum.map(&String.to_integer/1)
     |> Enum.sort()
-    # |> Enum.with_index()
-    |> adapter_arrangements(0, 0)
-    # |> Enum.with_index()
-    # |> reduce_stuff()
-  end
-
-  defp reduce_stuff([]), do: 0
-
-  defp reduce_stuff(adapters) do
-    length = Enum.count(adapters)
-
-    Enum.reduce_while(adapters, :init, fn
-      {current, index}, :init ->
-        IO.inspect({current, index}, label: "INIT")
-        {:cont, {current, index, 0}}
-
-      {current, index}, {previous, _, count} ->
-        IO.inspect({previous, current, count}, label: "Hi")
-        IO.inspect({index, length}, label: "Index and Length")
-
-        cond do
-          index == length - 1 ->
-            {:halt, count + 1}
-
-          current - previous <= 3 ->
-            branches_count =
-              adapters
-              |> Enum.slice(index, length)
-              |> Enum.map(fn {value, _index} -> value end)
-              |> Enum.with_index()
-              |> reduce_stuff() #=> {19, 9, 0}
-
-            {:cont, {current, index, count + branches_count}}
-
-          true ->
-            # not a branch
-            {:halt, count}
-        end
+    |> get_nodes()
+    |> Enum.with_index()
+    |> Enum.reduce(0, fn {value, index}, total ->
+      value * :math.pow(index, index) + total
     end)
   end
 
-  defp adapter_arrangements([], _, arrangements) do
-    arrangements
+  defp get_nodes(adapters) do
+    length = Enum.count(adapters)
+
+    adapters
+    |> Enum.with_index()
+    |> Enum.reduce([], fn {adapter, index}, new_branch_counts ->
+      new_branch_count =
+        adapters
+        |> Enum.slice(index + 1, length)
+        |> Enum.reduce_while(0, fn next_adapter, branch_count ->
+          if next_adapter - adapter <= 3 do
+            {:cont, branch_count + 1}
+          else
+            {:halt, branch_count}
+          end
+        end)
+
+      [new_branch_count - 1 | new_branch_counts]
+    end)
   end
-
-  defp adapter_arrangements([adapter | _rest], previous_adapter, arrangements) when adapter - previous_adapter > 3 do
-    arrangements
-  end
-
-  defp adapter_arrangements([adapter | rest], _previous_adapter, arrangements) do
-    IO.inspect(adapter, label: "CURRENT ADAPTER")
-
-    branch_count =
-      rest
-      |> Enum.with_index()
-      |> Enum.reduce_while(0, fn {next, index}, count ->
-        IO.inspect({next, count}, label: "COUNTING")
-
-        if next - adapter <= 3 do
-          IO.inspect(next - adapter, label: "Starting branch count")
-
-          branches_count =
-            rest
-            |> Enum.slice(index, Enum.count(rest))
-            |> Enum.with_index()
-            # |> adapter_arrangements()
-
-          {:cont, count + branches_count}
-        else
-          # not a branch
-          {:halt, count}
-        end
-      end)
-
-    adapter_arrangements(rest, adapter, arrangements + branch_count)
-  end
-
 
   defp joltage_differences(adapter_joltages) do
     state = %{previous_joltage: 0, diffs_1: 0, diffs_3: 1}
