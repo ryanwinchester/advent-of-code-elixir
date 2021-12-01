@@ -1,17 +1,17 @@
-defmodule Advent.Day03Test do
+defmodule Advent2020.Day03Test do
   use Advent.FileCase
 
-  alias Advent.Day03
+  alias Advent2020.Day03
 
   doctest Day03
 
   test "Part 1 - input file" do
-    input = load_file_lines("day-03")
+    input = load_file_lines(2020, "day-03")
     assert Day03.part_1(input) == 148
   end
 
   test "Part 2 - input file" do
-    input = load_file_lines("day-03")
+    input = load_file_lines(2020, "day-03")
     assert Day03.part_2(input) == 727_923_200
   end
 end

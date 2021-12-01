@@ -1,4 +1,4 @@
-defmodule Advent.Day03 do
+defmodule Advent2020.Day03 do
   @moduledoc """
   --- Day 3: Toboggan Trajectory ---
 

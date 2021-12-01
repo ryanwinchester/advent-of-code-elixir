@@ -1,4 +1,4 @@
-defmodule Advent.Day08 do
+defmodule Advent2020.Day08 do
   @moduledoc """
   --- Day 8: Handheld Halting ---
   https://adventofcode.com/2020/day/8

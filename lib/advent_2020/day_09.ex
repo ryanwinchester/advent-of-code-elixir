@@ -1,4 +1,4 @@
-defmodule Advent.Day09 do
+defmodule Advent2020.Day09 do
   @moduledoc """
   --- Day 9: Encoding Error ---
   https://adventofcode.com/2020/day/9

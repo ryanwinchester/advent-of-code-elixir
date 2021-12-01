@@ -1,6 +1,6 @@
-# Advent of Code 2020
+# Advent of Code Elixir
 
-[![Tests](https://github.com/ryanwinchester/advent-of-code-2020/workflows/Tests/badge.svg)](https://github.com/ryanwinchester/advent-of-code-2020/actions?query=workflow%3ATests)
+[![Tests](https://github.com/ryanwinchester/advent-of-code-elixir/workflows/Tests/badge.svg)](https://github.com/ryanwinchester/advent-of-code-elixir/actions?query=workflow%3ATests)
 
 
 To test:

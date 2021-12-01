@@ -1,4 +1,4 @@
-defmodule Advent.Day10 do
+defmodule Advent2020.Day10 do
   @moduledoc """
   --- Day 10: Adapter Array ---
   https://adventofcode.com/2020/day/10

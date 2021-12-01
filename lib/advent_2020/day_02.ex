@@ -1,4 +1,4 @@
-defmodule Advent.Day02 do
+defmodule Advent2020.Day02 do
   @moduledoc """
   --- Day 2: Password Philosophy ---
 

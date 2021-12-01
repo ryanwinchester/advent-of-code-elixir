@@ -1,4 +1,4 @@
-defmodule Advent.Day06 do
+defmodule Advent2020.Day06 do
   @moduledoc """
   --- Day 6: Custom Customs ---
   https://adventofcode.com/2020/day/6

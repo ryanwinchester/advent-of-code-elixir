@@ -1,4 +1,4 @@
-defmodule Advent.Day04 do
+defmodule Advent2020.Day04 do
   @moduledoc """
   --- Day 4: Passport Processing ---
   https://adventofcode.com/2020/day/4

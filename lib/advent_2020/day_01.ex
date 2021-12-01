@@ -1,4 +1,4 @@
-defmodule Advent.Day01 do
+defmodule Advent2020.Day01 do
   @moduledoc """
   --- Day 1: Report Repair ---
 

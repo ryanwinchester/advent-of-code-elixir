@@ -1,4 +1,4 @@
-defmodule Advent.Day05 do
+defmodule Advent2020.Day05 do
   @moduledoc """
   --- Day 5: Binary Boarding ---
   https://adventofcode.com/2020/day/5
