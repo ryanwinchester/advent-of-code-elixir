@@ -39,12 +39,14 @@ defmodule Advent2021.Day01 do
 
   # Count the number of times an item in a list is greater than the item before
   # it. The first item has no increase.
-  defp count_increases([], total), do: total
+  defp count_increases([a, b | []], total), do: inc_total(a, b, total)
 
-  defp count_increases([a, b | rest], total) do
-    total = if b - a > 0, do: total + 1, else: total
-    if rest == [], do: total, else: count_increases([b | rest], total)
-  end
+  defp count_increases([a, b | rest], total),
+    do: count_increases([b | rest], inc_total(a, b, total))
+
+  # Increment the total when b > a.
+  defp inc_total(a, b, total) when b - a > 0, do: total + 1
+  defp inc_total(_, _, total), do: total
 
   # Sum three-item windows from a list. Stop when there is not a full window of
   # three.
