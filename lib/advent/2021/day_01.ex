@@ -50,7 +50,6 @@ defmodule Advent2021.Day01 do
 
   # Sum three-item windows from a list. Stop when there is not a full window of
   # three.
-  defp sum_windows([], acc), do: Enum.reverse(acc)
   defp sum_windows([_, _], acc), do: Enum.reverse(acc)
 
   defp sum_windows([a, b, c | rest], acc),

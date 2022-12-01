@@ -31,6 +31,8 @@ defmodule Advent2020.Day04Test do
   test "validate_field/1 with byr" do
     assert Day04.validate_field("byr:2002")
     refute Day04.validate_field("byr:2003")
+    refute Day04.validate_field("byr:1")
+    refute Day04.validate_field("byr:foo-1foo")
   end
 
   test "validate_field/1 with hgt" do
@@ -54,6 +56,10 @@ defmodule Advent2020.Day04Test do
   test "validate_field/1 with pid" do
     assert Day04.validate_field("pid:000000001")
     refute Day04.validate_field("pid:0123456789")
+  end
+
+  test "validate_field/1 with invalid" do
+    refute Day04.validate_field("foo:000000001")
   end
 
   test "Part 2 - returns `0` with invalid passports" do
