@@ -10,7 +10,7 @@ defmodule Advent2021.Day04Test do
 
     numbers =
       numstring
-      |> String.split(",", trime: true)
+      |> String.split(",", trim: true)
       |> Enum.map(&String.to_integer/1)
 
     boards =

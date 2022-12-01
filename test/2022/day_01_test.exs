@@ -6,7 +6,7 @@ defmodule Advent2022.Day01Test do
   doctest Day01
 
   setup do
-    groups = load_file_groups(2022, "day-01")
+    groups = load_file_lines_grouped(2022, "day-01")
 
     input =
       for g <- groups do
@@ -23,6 +23,6 @@ defmodule Advent2022.Day01Test do
   end
 
   test "Part 2 - input file", %{input: input} do
-    assert Day01.part_2(input) == 200044
+    assert Day01.part_2(input) == 200_044
   end
 end

@@ -10,17 +10,12 @@ defmodule Advent.FileCase do
       end
 
       defp load_file_lines(year, file) do
-        "../support/inputs/#{year}/#{file}.txt"
-        |> Path.expand(__DIR__)
-        |> File.read!()
-        |> String.split("\n", trim: true)
+        load_file(year, file) |> String.split("\n", trim: true)
       end
 
-      defp load_file_groups(year, file) do
-        "../support/inputs/#{year}/#{file}.txt"
-        |> Path.expand(__DIR__)
-        |> File.read!()
-        |> String.split("\n\n", trim: true)
+      defp load_file_lines_grouped(year, file, chunk_by \\ "\n\n") do
+        load_file(year, file)
+        |> String.split(chunk_by, trim: true)
         |> Enum.map(&String.split(&1, "\n", trim: true))
       end
     end
