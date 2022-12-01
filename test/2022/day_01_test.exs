@@ -6,15 +6,7 @@ defmodule Advent2022.Day01Test do
   doctest Day01
 
   setup do
-    groups = load_file_lines_grouped(2022, "day-01")
-
-    input =
-      for g <- groups do
-        for n <- g do
-          String.to_integer(n)
-        end
-      end
-
+    input = load_file_lines_chunked_to_integer(2022, "day-01")
     {:ok, input: input}
   end
 

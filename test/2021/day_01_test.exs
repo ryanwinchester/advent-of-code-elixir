@@ -6,7 +6,7 @@ defmodule Advent2021.Day01Test do
   doctest Day01
 
   setup do
-    input = Enum.map(load_file_lines(2021, "day-01"), &String.to_integer/1)
+    input = load_file_lines_to_integer(2021, "day-01")
     {:ok, input: input}
   end
 

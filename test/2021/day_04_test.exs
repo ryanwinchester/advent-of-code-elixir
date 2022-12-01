@@ -6,7 +6,7 @@ defmodule Advent2021.Day04Test do
   doctest Day04
 
   setup do
-    [numstring | boardstrings] = load_file(2021, "day-04") |> String.split("\n\n", trim: true)
+    [numstring | boardstrings] = load_file_chunks(2021, "day-04")
 
     numbers =
       numstring
