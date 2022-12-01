@@ -4,14 +4,25 @@
  [![Coverage](https://coveralls.io/repos/github/ryanwinchester/advent-of-code-elixir/badge.svg?branch=master)](https://coveralls.io/github/ryanwinchester/advent-of-code-elixir?branch=master)
 
 
-To test:
+My [**Advent of Code**](https://adventofcode.com) adventures. Structured like I would a real project in production.
+
+### Dev
+
+Do what you want.
 
 ```
-mix test
+mix deps.get
 ```
 
 To play with the application in `iex`:
 
 ```
 iex -S mix
+```
+
+
+### Testing
+
+```
+mix test
 ```
