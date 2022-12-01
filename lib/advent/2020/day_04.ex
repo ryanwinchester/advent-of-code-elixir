@@ -61,7 +61,7 @@ defmodule Advent2020.Day04 do
   def validate_field("ecl:" <> value), do: value in ~w(amb blu brn gry grn hzl oth)
   def validate_field("pid:" <> value), do: Regex.match?(~R/^[0-9]{9}$/, value)
   def validate_field("cid:" <> _value), do: true
-  def validate_field(field), do: false
+  def validate_field(_field), do: false
 
   defp validate_height(height_string) do
     case Integer.parse(height_string) do
