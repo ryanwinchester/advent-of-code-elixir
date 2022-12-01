@@ -1,12 +1,12 @@
 defmodule Advent2021.Day04Test do
-  use Advent.FileCase
+  use Advent.FileCase, async: true
 
   alias Advent2021.Day04
 
   doctest Day04
 
   setup do
-    [numstring | boardstrings] = load_file_chunks(2021, "day-04")
+    [numstring | boardstrings] = load_input_chunks(2021, "day-04")
 
     numbers =
       numstring

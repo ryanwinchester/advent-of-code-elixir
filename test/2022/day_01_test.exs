@@ -1,12 +1,12 @@
 defmodule Advent2022.Day01Test do
-  use Advent.FileCase
+  use Advent.FileCase, async: true
 
   alias Advent2022.Day01
 
   doctest Day01
 
   setup do
-    input = load_file_lines_chunked_to_integer(2022, "day-01")
+    input = load_input_lines_chunked_to_integer(2022, "day-01")
     {:ok, input: input}
   end
 

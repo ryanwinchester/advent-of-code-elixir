@@ -1,12 +1,12 @@
 defmodule Advent2021.Day03Test do
-  use Advent.FileCase
+  use Advent.FileCase, async: true
 
   alias Advent2021.Day03
 
   doctest Day03
 
   setup do
-    input = load_file_lines(2021, "day-03")
+    input = load_input_lines(2021, "day-03")
     {:ok, input: input}
   end
 

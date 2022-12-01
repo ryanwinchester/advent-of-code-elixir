@@ -1,5 +1,5 @@
 defmodule Advent2020.Day06Test do
-  use Advent.FileCase
+  use Advent.FileCase, async: true
 
   alias Advent2020.Day06
 
@@ -26,7 +26,7 @@ defmodule Advent2020.Day06Test do
   end
 
   test "Part 1 - input file" do
-    input = load_file(2020, "day-06")
+    input = load_input(2020, "day-06")
     assert Day06.part_1(input) == 6170
   end
 
@@ -53,7 +53,7 @@ defmodule Advent2020.Day06Test do
   end
 
   test "Part 2 - input file" do
-    input = load_file(2020, "day-06")
+    input = load_input(2020, "day-06")
     assert Day06.part_2(input) == 2947
   end
 end

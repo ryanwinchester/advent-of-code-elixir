@@ -3,36 +3,30 @@ defmodule Advent.FileCase do
 
   using do
     quote do
-      defp load_file(year, file) do
+      defp load_input(year, file) do
         "../support/inputs/#{year}/#{file}.txt"
         |> Path.expand(__DIR__)
         |> File.read!()
       end
 
-      defp load_file_lines(year, file) do
-        load_file(year, file) |> String.split("\n", trim: true)
+      defp load_input_lines(year, file) do
+        load_input(year, file) |> Advent.input_lines()
       end
 
-      defp load_file_lines_to_integer(year, file) do
-        load_file_lines(year, file) |> Enum.map(&String.to_integer/1)
+      defp load_input_lines_to_integer(year, file) do
+        load_input(year, file) |> Advent.input_lines_to_integer()
       end
 
-      defp load_file_chunks(year, file, chunk_by \\ "\n\n") do
-        load_file(year, file) |> String.split(chunk_by, trim: true)
+      defp load_input_chunks(year, file, chunk_by \\ "\n\n") do
+        load_input(year, file) |> Advent.input_chunks(chunk_by)
       end
 
-      defp load_file_lines_chunked(year, file, chunk_by \\ "\n\n") do
-        load_file_chunks(year, file) |> Enum.map(&String.split(&1, "\n", trim: true))
+      defp load_input_lines_chunked(year, file, chunk_by \\ "\n\n") do
+        load_input(year, file) |> Advent.input_lines_chunked(chunk_by)
       end
 
-      defp load_file_lines_chunked_to_integer(year, file, chunk_by \\ "\n\n") do
-        groups = load_file_lines_chunked(year, file, chunk_by)
-
-        for g <- groups do
-          for n <- g do
-            String.to_integer(n)
-          end
-        end
+      defp load_input_lines_chunked_to_integer(year, file, chunk_by \\ "\n\n") do
+        load_input(year, file) |> Advent.input_lines_chunked_to_integer(chunk_by)
       end
     end
   end
