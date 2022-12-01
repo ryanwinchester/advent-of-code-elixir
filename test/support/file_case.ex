@@ -15,6 +15,14 @@ defmodule Advent.FileCase do
         |> File.read!()
         |> String.split("\n", trim: true)
       end
+
+      defp load_file_groups(year, file) do
+        "../support/inputs/#{year}/#{file}.txt"
+        |> Path.expand(__DIR__)
+        |> File.read!()
+        |> String.split("\n\n", trim: true)
+        |> Enum.map(&String.split(&1, "\n", trim: true))
+      end
     end
   end
 end
