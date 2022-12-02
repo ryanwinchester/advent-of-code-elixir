@@ -7,6 +7,8 @@ defmodule Advent2022.Day02 do
   A: Rock B: Paper C: Scissors
   """
 
+  @scores %{ROCK: 1, PAPER: 2, SCISSORS: 3, LOSE: 0, DRAW: 3, WIN: 6}
+
   @doc """
   What would your total score be if everything goes exactly according to
   your strategy guide?
@@ -22,19 +24,17 @@ defmodule Advent2022.Day02 do
     Enum.reduce(rounds, 0, &play_1/2)
   end
 
-  @scores %{"R" => 1, "P" => 2, "S" => 3, lose: 0, draw: 3, win: 6}
+  defp play_1(["A", "X"], score), do: score + @scores[:ROCK] + @scores[:DRAW]
+  defp play_1(["A", "Y"], score), do: score + @scores[:PAPER] + @scores[:WIN]
+  defp play_1(["A", "Z"], score), do: score + @scores[:SCISSORS] + @scores[:LOSE]
 
-  defp play_1(["A", "X"], score), do: score + @scores["R"] + @scores[:draw]
-  defp play_1(["A", "Y"], score), do: score + @scores["P"] + @scores[:win]
-  defp play_1(["A", "Z"], score), do: score + @scores["S"] + @scores[:lose]
+  defp play_1(["B", "X"], score), do: score + @scores[:ROCK] + @scores[:LOSE]
+  defp play_1(["B", "Y"], score), do: score + @scores[:PAPER] + @scores[:DRAW]
+  defp play_1(["B", "Z"], score), do: score + @scores[:SCISSORS] + @scores[:WIN]
 
-  defp play_1(["B", "X"], score), do: score + @scores["R"] + @scores[:lose]
-  defp play_1(["B", "Y"], score), do: score + @scores["P"] + @scores[:draw]
-  defp play_1(["B", "Z"], score), do: score + @scores["S"] + @scores[:win]
-
-  defp play_1(["C", "X"], score), do: score + @scores["R"] + @scores[:win]
-  defp play_1(["C", "Y"], score), do: score + @scores["P"] + @scores[:lose]
-  defp play_1(["C", "Z"], score), do: score + @scores["S"] + @scores[:draw]
+  defp play_1(["C", "X"], score), do: score + @scores[:ROCK] + @scores[:WIN]
+  defp play_1(["C", "Y"], score), do: score + @scores[:PAPER] + @scores[:LOSE]
+  defp play_1(["C", "Z"], score), do: score + @scores[:SCISSORS] + @scores[:DRAW]
 
   @doc """
   Following the Elf's instructions for the second column, what would your total
@@ -51,15 +51,15 @@ defmodule Advent2022.Day02 do
     Enum.reduce(rounds, 0, &play_2/2)
   end
 
-  defp play_2(["A", "X"], score), do: score + @scores["S"] + @scores[:lose]
-  defp play_2(["A", "Y"], score), do: score + @scores["R"] + @scores[:draw]
-  defp play_2(["A", "Z"], score), do: score + @scores["P"] + @scores[:win]
+  defp play_2(["A", "X"], score), do: score + @scores[:SCISSORS] + @scores[:LOSE]
+  defp play_2(["A", "Y"], score), do: score + @scores[:ROCK] + @scores[:DRAW]
+  defp play_2(["A", "Z"], score), do: score + @scores[:PAPER] + @scores[:WIN]
 
-  defp play_2(["B", "X"], score), do: score + @scores["R"] + @scores[:lose]
-  defp play_2(["B", "Y"], score), do: score + @scores["P"] + @scores[:draw]
-  defp play_2(["B", "Z"], score), do: score + @scores["S"] + @scores[:win]
+  defp play_2(["B", "X"], score), do: score + @scores[:ROCK] + @scores[:LOSE]
+  defp play_2(["B", "Y"], score), do: score + @scores[:PAPER] + @scores[:DRAW]
+  defp play_2(["B", "Z"], score), do: score + @scores[:SCISSORS] + @scores[:WIN]
 
-  defp play_2(["C", "X"], score), do: score + @scores["P"] + @scores[:lose]
-  defp play_2(["C", "Y"], score), do: score + @scores["S"] + @scores[:draw]
-  defp play_2(["C", "Z"], score), do: score + @scores["R"] + @scores[:win]
+  defp play_2(["C", "X"], score), do: score + @scores[:PAPER] + @scores[:LOSE]
+  defp play_2(["C", "Y"], score), do: score + @scores[:SCISSORS] + @scores[:DRAW]
+  defp play_2(["C", "Z"], score), do: score + @scores[:ROCK] + @scores[:WIN]
 end
