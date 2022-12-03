@@ -28,9 +28,9 @@ defmodule Advent2022.Day03 do
       rucksack
       |> String.split_at(div(byte_size(rucksack), 2))
       |> Tuple.to_list()
-      |> Enum.map(&String.split(&1, "", trim: true))
-      |> intersect_items()
-      |> Enum.reduce(0, &(priority(&1) + &2))
+      |> Enum.map(&String.codepoints/1)
+      |> common_items()
+      |> Enum.reduce(0, &(to_priority(&1) + &2))
     end) |> Enum.sum()
   end
 
@@ -54,22 +54,22 @@ defmodule Advent2022.Day03 do
   """
   def part_2(rucksacks) do
     rucksacks
-    |> Enum.map(&String.split(&1, "", trim: true))
+    |> Enum.map(&String.codepoints/1)
     |> Enum.chunk_every(3)
     |> Enum.map(fn group ->
       group
-      |> intersect_items()
-      |> Enum.reduce(0, &(priority(&1) + &2))
+      |> common_items()
+      |> Enum.reduce(0, &(to_priority(&1) + &2))
     end)
     |> Enum.sum()
   end
 
-  defp intersect_items(items) do
+  defp common_items(items) do
     items
     |> Enum.reduce(&MapSet.intersection(MapSet.new(&1), MapSet.new(&2)))
     |> MapSet.to_list()
   end
 
-  defp priority(<<c>>) when c in ?a..?z, do: c - 96
-  defp priority(<<c>>) when c in ?A..?Z, do: c - 38
+  defp to_priority(<<c>>) when c in ?a..?z, do: c - 96
+  defp to_priority(<<c>>) when c in ?A..?Z, do: c - 38
 end
