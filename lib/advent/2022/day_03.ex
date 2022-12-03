@@ -24,14 +24,16 @@ defmodule Advent2022.Day03 do
 
   """
   def part_1(rucksacks) do
-    Enum.map(rucksacks, fn rucksack ->
+    rucksacks
+    |> Enum.map(fn rucksack ->
       rucksack
       |> String.split_at(div(byte_size(rucksack), 2))
       |> Tuple.to_list()
       |> Enum.map(&String.codepoints/1)
       |> common_items()
       |> Enum.reduce(0, &(to_priority(&1) + &2))
-    end) |> Enum.sum()
+    end)
+    |> Enum.sum()
   end
 
   @doc """
