@@ -27,11 +27,9 @@ defmodule Advent2022.Day03 do
     rucksacks
     |> Enum.map(fn rucksack ->
       rucksack
-      |> String.split_at(div(byte_size(rucksack), 2))
-      |> Tuple.to_list()
-      |> Enum.map(&String.codepoints/1)
+      |> to_compartments()
       |> common_items()
-      |> Enum.reduce(0, &(to_priority(&1) + &2))
+      |> sum_priorities()
     end)
     |> Enum.sum()
   end
@@ -56,14 +54,22 @@ defmodule Advent2022.Day03 do
   """
   def part_2(rucksacks) do
     rucksacks
+    |> to_groups()
+    |> Enum.map(&(common_items(&1) |> sum_priorities()))
+    |> Enum.sum()
+  end
+
+  defp to_compartments(rucksack) do
+    rucksack
+    |> String.split_at(div(byte_size(rucksack), 2))
+    |> Tuple.to_list()
+    |> Enum.map(&String.codepoints/1)
+  end
+
+  defp to_groups(rucksack) do
+    rucksack
     |> Enum.map(&String.codepoints/1)
     |> Enum.chunk_every(3)
-    |> Enum.map(fn group ->
-      group
-      |> common_items()
-      |> Enum.reduce(0, &(to_priority(&1) + &2))
-    end)
-    |> Enum.sum()
   end
 
   defp common_items(items) do
@@ -71,6 +77,8 @@ defmodule Advent2022.Day03 do
     |> Enum.reduce(&MapSet.intersection(MapSet.new(&1), MapSet.new(&2)))
     |> MapSet.to_list()
   end
+
+  defp sum_priorities(items), do: Enum.reduce(items, 0, &(to_priority(&1) + &2))
 
   defp to_priority(<<c>>) when c in ?a..?z, do: c - 96
   defp to_priority(<<c>>) when c in ?A..?Z, do: c - 38
