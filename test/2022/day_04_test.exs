@@ -11,10 +11,9 @@ defmodule Advent2022.Day04Test do
   end
 
   def parse_input(input) do
-    input
-    |> Enum.map(fn pair ->
+    Enum.map(input, fn pair ->
       pair
-      |> String.split(",", trim: true)
+      |> String.split(",")
       |> Enum.map(fn range_str ->
         [a, b] = String.split(range_str, "-")
         Range.new(String.to_integer(a), String.to_integer(b))

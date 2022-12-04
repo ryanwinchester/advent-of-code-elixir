@@ -5,7 +5,7 @@ sections =
   |> String.split("\n", trim: true)
   |> Enum.map(fn pair ->
     pair
-    |> String.split(",", trim: true)
+    |> String.split(",")
     |> Enum.map(fn range_str ->
       [a, b] = String.split(range_str, "-")
       Range.new(String.to_integer(a), String.to_integer(b))
