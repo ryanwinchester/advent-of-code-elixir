@@ -1,7 +1,3 @@
-Mix.install([
-  {:benchee, "~> 1.0"}
-])
-
 defmodule NewMember do
   @moduledoc "With the proposed new functions."
   def member?(first..last//1, value) when first <= last and is_integer(value) do
@@ -32,6 +28,17 @@ defmodule OriginalMember do
   end
 end
 
+defmodule OptimizedMember do
+  @moduledoc "With the original function."
+  def member?(first..last//step, value) when is_integer(value) do
+    if step > 0 do
+      {:ok, first <= value and value <= last and rem(value - first, step) == 0}
+    else
+      {:ok, last <= value and value <= first and rem(value - first, step) == 0}
+    end
+  end
+end
+
 input =
   "./range.member-input.txt"
   |> Path.expand(__DIR__)
@@ -46,6 +53,8 @@ input =
     end)
     |> List.to_tuple()
   end)
+
+:eprof.start()
 
 # Comparing `value in range` vs `value >= range.first and value <= range.last`.
 Benchee.run(
@@ -72,6 +81,7 @@ Benchee.run(
 
     # The original `member?` implementation, to avoid Protocol dispatch.
     "OriginalMember" => fn ->
+      :eprof.profile(fn ->
       Enum.reduce(input, 0, fn {a, b}, count ->
         cond do
           OriginalMember.member?(b, a.first) == {:ok, true} -> count + 1
@@ -79,10 +89,26 @@ Benchee.run(
           true -> count
         end
       end)
+      end)
+      :eprof.analyze()
+    end,
+
+    "OptimizedMember" => fn ->
+      :eprof.profile(fn ->
+      Enum.reduce(input, 0, fn {a, b}, count ->
+        cond do
+          OptimizedMember.member?(b, a.first) == {:ok, true} -> count + 1
+          OptimizedMember.member?(a, b.first) == {:ok, true} -> count + 1
+          true -> count
+        end
+      end)
+      end)
+      :eprof.analyze()
     end,
 
     # The proposed `member?` implementation.
     "NewMember" => fn ->
+      :eprof.profile(fn ->
       Enum.reduce(input, 0, fn {a, b}, count ->
         cond do
           NewMember.member?(b, a.first) == {:ok, true} -> count + 1
@@ -90,6 +116,8 @@ Benchee.run(
           true -> count
         end
       end)
+      end)
+      :eprof.analyze()
     end
   }
 )
@@ -109,21 +137,24 @@ Benchee.run(
 # reduction time: 0 ns
 # parallel: 1
 # inputs: none specified
-# Estimated total run time: 28 s
+# Estimated total run time: 35 s
 #
 # Benchmarking Enumerable ...
 # Benchmarking NewMember ...
+# Benchmarking OptimizedMember ...
 # Benchmarking OriginalMember ...
 # Benchmarking in ...
 #
-# Name                     ips        average  deviation         median         99th %
-# NewMember            1107.57        0.90 ms     ±5.79%        0.89 ms        1.08 ms
-# OriginalMember        659.54        1.52 ms     ±4.27%        1.50 ms        1.70 ms
-# in                    525.07        1.90 ms     ±4.07%        1.89 ms        2.11 ms
-# Enumerable            492.61        2.03 ms    ±17.31%        2.01 ms        2.50 ms
+# Name                      ips        average  deviation         median         99th %
+# NewMember             1124.24        0.89 ms     ±6.55%        0.88 ms        1.04 ms
+# OptimizedMember       1051.91        0.95 ms     ±5.10%        0.94 ms        1.10 ms
+# OriginalMember         674.34        1.48 ms     ±3.10%        1.48 ms        1.62 ms
+# in                     525.43        1.90 ms     ±3.17%        1.90 ms        2.06 ms
+# Enumerable             512.84        1.95 ms     ±3.08%        1.94 ms        2.11 ms
 #
 # Comparison:
-# NewMember            1107.57
-# OriginalMember        659.54 - 1.68x slower +0.61 ms
-# in                    525.07 - 2.11x slower +1.00 ms
-# Enumerable            492.61 - 2.25x slower +1.13 ms
+# NewMember             1124.24
+# OptimizedMember       1051.91 - 1.07x slower +0.0612 ms
+# OriginalMember         674.34 - 1.67x slower +0.59 ms
+# in                     525.43 - 2.14x slower +1.01 ms
+# Enumerable             512.84 - 2.19x slower +1.06 ms

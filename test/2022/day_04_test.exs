@@ -3,23 +3,12 @@ defmodule Advent2022.Day04Test do
 
   import Advent2022.Day04
 
+  alias Advent2022.Day04Parser
+
   doctest Advent2022.Day04
 
   setup do
-    input = load_input_lines(2022, "day-04") |> parse_input()
-    {:ok, input: input}
-  end
-
-  def parse_input(input) do
-    Enum.map(input, fn pair ->
-      pair
-      |> String.split(",")
-      |> Enum.map(fn range_str ->
-        [a, b] = String.split(range_str, "-")
-        Range.new(String.to_integer(a), String.to_integer(b))
-      end)
-      |> List.to_tuple()
-    end)
+    parse_input(2022, "day-04", Day04Parser)
   end
 
   test "Part 1 - input file", %{input: input} do

@@ -9,6 +9,11 @@ defmodule Advent.FileCase do
         |> File.read!()
       end
 
+      defp parse_input(year, file, parser) do
+        {:ok, result, _, _, _, _} = load_input(year, file) |> parser.input()
+        {:ok, input: result}
+      end
+
       defp load_input_lines(year, file) do
         load_input(year, file) |> Advent.input_lines()
       end
