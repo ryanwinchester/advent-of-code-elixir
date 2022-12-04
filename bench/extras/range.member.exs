@@ -40,7 +40,7 @@ defmodule OptimizedMember do
 end
 
 input =
-  "./range.member-input.txt"
+  "./range.member-extended-input.txt"
   |> Path.expand(__DIR__)
   |> File.read!()
   |> String.split("\n", trim: true)

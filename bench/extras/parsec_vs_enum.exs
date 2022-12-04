@@ -1,5 +1,5 @@
 input =
-  "./range.member-input.txt"
+  "./range.member-extended-input.txt"
   |> Path.expand(__DIR__)
   |> File.read!()
 
@@ -42,7 +42,7 @@ Benchee.run(
 # inputs: none specified
 # Estimated total run time: 14 s
 #
-# Benchmarking NumbleParsec ...
+# Benchmarking NimbleParsec ...
 # Benchmarking split/map ...
 #
 # Name                   ips        average  deviation         median         99th %
@@ -50,5 +50,5 @@ Benchee.run(
 # split/map            46.09       21.70 ms     ±7.58%       21.40 ms       26.04 ms
 #
 # Comparison:
-# NumbleParsec         92.16
+# NimbleParsec         92.16
 # split/map            46.09 - 2.00x slower +10.85 ms
