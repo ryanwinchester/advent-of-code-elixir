@@ -25,8 +25,8 @@ defmodule Advent2022.Day04 do
   def part_1(sections) do
     Enum.reduce(sections, 0, fn {a, b}, count ->
       cond do
-        a.first in b and a.last in b -> count + 1
-        b.first in a and b.last in a -> count + 1
+        a.first >= b.first and a.last <= b.last -> count + 1
+        b.first >= a.first and b.last <= a.last -> count + 1
         true -> count
       end
     end)

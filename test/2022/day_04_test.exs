@@ -6,19 +6,21 @@ defmodule Advent2022.Day04Test do
   doctest Advent2022.Day04
 
   setup do
-    input =
-      load_input_lines(2022, "day-04")
-      |> Enum.map(fn pair ->
-        pair
-        |> String.split(",", trim: true)
-        |> Enum.map(fn range_str ->
-          [a, b] = String.split(range_str, "-")
-          Range.new(String.to_integer(a), String.to_integer(b))
-        end)
-        |> List.to_tuple()
-      end)
-
+    input = load_input_lines(2022, "day-04") |> parse_input()
     {:ok, input: input}
+  end
+
+  def parse_input(input) do
+    input
+    |> Enum.map(fn pair ->
+      pair
+      |> String.split(",", trim: true)
+      |> Enum.map(fn range_str ->
+        [a, b] = String.split(range_str, "-")
+        Range.new(String.to_integer(a), String.to_integer(b))
+      end)
+      |> List.to_tuple()
+    end)
   end
 
   test "Part 1 - input file", %{input: input} do
