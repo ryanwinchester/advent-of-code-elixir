@@ -26,7 +26,7 @@ Benchee.run(
       end)
     end,
 
-    "compare fist-last" => fn ->
+    "range compare first-last" => fn ->
       Enum.reduce(sections, 0, fn {a, b}, count ->
         cond do
           a.first >= b.first and a.last <= b.last -> count + 1
