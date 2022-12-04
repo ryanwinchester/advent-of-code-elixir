@@ -15,7 +15,7 @@ defmodule Advent2022.Day01 do
       ...>   [1000, 2000, 3000], [4000], [5000, 6000],
       ...>   [7000, 8000, 9000], [10000]
       ...> ]
-      iex> Day01.part_1(calories)
+      iex> part_1(calories)
       24_000
 
   """
@@ -36,7 +36,7 @@ defmodule Advent2022.Day01 do
       ...>   [1000, 2000, 3000], [4000], [5000, 6000],
       ...>   [7000, 8000, 9000], [10000]
       ...> ]
-      iex> Day01.part_2(calories)
+      iex> part_2(calories)
       45_000
 
   """

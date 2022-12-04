@@ -6,12 +6,12 @@ defmodule Advent2020.Day01Test do
   doctest Day01
 
   test "Part 1 - input file" do
-    input = Enum.map(load_input_lines(2020, "day-01"), &String.to_integer/1)
+    input = Enum.map(load_input_lines(~D[2020-12-01]), &String.to_integer/1)
     assert Day01.part_1(input) == 1_015_476
   end
 
   test "Part 2 - input file" do
-    input = Enum.map(load_input_lines(2020, "day-01"), &String.to_integer/1)
+    input = Enum.map(load_input_lines(~D[2020-12-01]), &String.to_integer/1)
     assert Day01.part_2(input) == 200_878_544
   end
 end

@@ -6,7 +6,7 @@ defmodule Advent2021.Day03Test do
   doctest Day03
 
   setup do
-    input = load_input_lines(2021, "day-03")
+    input = load_input_lines(~D[2021-12-03])
     {:ok, input: input}
   end
 

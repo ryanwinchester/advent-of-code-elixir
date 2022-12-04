@@ -24,7 +24,7 @@ defmodule Advent2020.Day04Test do
   end
 
   test "Part 1 - input file" do
-    input = load_input(2020, "day-04")
+    input = load_input(~D[2020-12-04])
     assert Day04.part_1(input) == 260
   end
 
@@ -102,7 +102,7 @@ defmodule Advent2020.Day04Test do
   end
 
   test "Part 2 - input file" do
-    input = load_input(2020, "day-04")
+    input = load_input(~D[2020-12-04])
     assert Day04.part_2(input) == 153
   end
 end
