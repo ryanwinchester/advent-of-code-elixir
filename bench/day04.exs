@@ -1,5 +1,3 @@
-Mix.install([{:benchee, "~> 1.0"}])
-
 sections =
   "../test/support/inputs/2022/day-04.txt"
   |> Path.expand(__DIR__)
@@ -47,7 +45,7 @@ Benchee.run(
 # Available memory: 32 GB
 # Elixir 1.14.2
 # Erlang 25.1.2
-
+#
 # Benchmark suite executing with the following configuration:
 # warmup: 2 s
 # time: 5 s
@@ -56,14 +54,14 @@ Benchee.run(
 # parallel: 1
 # inputs: none specified
 # Estimated total run time: 14 s
-
-# Benchmarking range compare first-last ...
+#
+# Benchmarking compare fist-last ...
 # Benchmarking range in ...
-
-# Name                               ips        average  deviation         median         99th %
-# range compare first-last       22.95 K       43.57 μs    ±12.98%       42.52 μs       65.20 μs
-# range in                        4.93 K      203.04 μs    ±44.59%      196.77 μs      262.83 μs
-
+#
+# Name                        ips        average  deviation         median         99th %
+# compare fist-last       22.81 K       43.84 μs    ±12.55%       42.80 μs       64.04 μs
+# range in                 5.00 K      200.06 μs     ±5.16%      196.34 μs      244.32 μs
+#
 # Comparison:
-# range compare first-last       22.95 K
-# range in                        4.93 K - 4.66x slower +159.48 μs
+# compare fist-last       22.81 K
+# range in                 5.00 K - 4.56x slower +156.22 μs
