@@ -1,6 +1,35 @@
 defmodule Advent2022.Day05Parser do
   @moduledoc """
-  Parser combinator for Day 05
+  Parser combinators for Day 05.
+
+  ### Input
+
+          [D]
+      [N] [C]
+      [Z] [M] [P]
+       1   2   3
+
+      move 1 from 2 to 1
+      move 3 from 1 to 3
+      move 2 from 2 to 1
+      move 1 from 1 to 2
+
+  ### Output
+
+      [
+        rows: [
+          [" ", "D", " "],
+          ["N", "C", " "],
+          ["Z", "M", "P"]
+        ],
+        moves: [
+          {1, 2, 1},
+          {3, 1, 3},
+          {2, 2, 1},
+          {1, 1, 2}
+        ]
+      ]
+
   """
   import NimbleParsec
 
