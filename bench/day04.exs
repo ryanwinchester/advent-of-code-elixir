@@ -1,5 +1,5 @@
 {:ok, input, _, _, _, _} =
-  "../test/support/inputs/2022/day-04.txt"
+  "../test/support/inputs/advent_2022/04.txt"
   |> Path.expand(__DIR__)
   |> File.read!()
   |> Advent2022.Day04Parser.input()

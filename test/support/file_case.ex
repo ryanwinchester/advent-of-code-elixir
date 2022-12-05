@@ -4,7 +4,7 @@ defmodule Advent.FileCase do
   using do
     quote do
       defp load_input(date) do
-        "../support/inputs/#{date.year}/day-#{Calendar.strftime(date, "%0d")}.txt"
+        "../support/inputs/advent_#{date.year}/#{Calendar.strftime(date, "%0d")}.txt"
         |> Path.expand(__DIR__)
         |> File.read!()
       end
