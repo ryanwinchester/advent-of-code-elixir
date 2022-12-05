@@ -4,7 +4,7 @@ defmodule Advent2022.Day02Test do
   doctest Advent2022.Day02, import: true
 
   setup do
-    input = load_input_lines(~D[2022-12-02]) |> Enum.map(&String.split(&1, " ", trim: true))
+    input = load_input_lines({2022, 2}) |> Enum.map(&String.split(&1, " ", trim: true))
     {:ok, input: input}
   end
 

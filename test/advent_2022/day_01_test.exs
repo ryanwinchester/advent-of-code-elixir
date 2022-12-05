@@ -4,7 +4,7 @@ defmodule Advent2022.Day01Test do
   doctest Advent2022.Day01, import: true
 
   setup do
-    input = load_input_lines_chunked_to_integer(~D[2022-12-01])
+    input = load_input_lines_chunked_to_integer({2022, 1})
     {:ok, input: input}
   end
 

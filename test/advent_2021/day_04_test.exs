@@ -6,7 +6,7 @@ defmodule Advent2021.Day04Test do
   doctest Day04
 
   setup do
-    [numstring | boardstrings] = load_input_chunks(~D[2021-12-04])
+    [numstring | boardstrings] = load_input_chunks({2021, 4})
 
     numbers =
       numstring

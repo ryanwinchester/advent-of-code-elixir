@@ -4,7 +4,7 @@ defmodule Advent2022.Day05Test do
   doctest Advent2022.Day05, import: true
 
   setup do
-    parse_input(~D[2022-12-05], Advent2022.Day05Parser)
+    parse_input({2022, 5}, Advent2022.Day05Parser)
   end
 
   test "Part 1 - input file", %{input: [rows: rows, moves: moves]} do

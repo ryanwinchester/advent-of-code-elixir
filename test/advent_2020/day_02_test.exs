@@ -6,12 +6,12 @@ defmodule Advent2020.Day02Test do
   doctest Day02
 
   test "Part 1 - input file" do
-    input = load_input_lines(~D[2020-12-02])
+    input = load_input_lines({2020, 2})
     assert Day02.part_1(input) == 524
   end
 
   test "Part 2 - input file" do
-    input = load_input_lines(~D[2020-12-02])
+    input = load_input_lines({2020, 2})
     assert Day02.part_2(input) == 485
   end
 end

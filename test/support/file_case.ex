@@ -3,8 +3,10 @@ defmodule Advent.FileCase do
 
   using do
     quote do
-      defp load_input(date) do
-        "../support/inputs/advent_#{date.year}/#{Calendar.strftime(date, "%0d")}.txt"
+      defp day_string(day), do: String.pad_leading(to_string(day), 2, "0")
+
+      defp load_input({year, day}) do
+        "../support/inputs/advent_#{year}/#{day_string(day)}.txt"
         |> Path.expand(__DIR__)
         |> File.read!()
       end
