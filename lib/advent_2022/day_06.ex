@@ -60,17 +60,16 @@ defmodule Advent2022.Day06 do
     buffer
     |> String.codepoints()
     |> Enum.with_index()
-    |> get_marker_index(num_uniq)
+    |> Enum.chunk_every(num_uniq, 1)
+    |> get_marker_index()
   end
 
-  defp get_marker_index([_ | rest] = list, num_uniq) do
-    {check, _} = Enum.split(list, num_uniq)
-
+  defp get_marker_index([check | rest]) do
     if Enum.uniq_by(check, &elem(&1, 0)) == check do
       {_, i} = List.last(check)
       i + 1
     else
-      get_marker_index(rest, num_uniq)
+      get_marker_index(rest)
     end
   end
 end
