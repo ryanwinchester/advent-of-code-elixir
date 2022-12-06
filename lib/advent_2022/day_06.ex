@@ -9,8 +9,8 @@ defmodule Advent2022.Day06 do
   @start_of_message 14
 
   @doc """
-  After the rearrangement procedure completes, what crate ends up on top of
-  each stack?
+  How many characters need to be processed before the first start-of-packet
+  marker is detected?
 
   ## Examples
 
@@ -33,8 +33,8 @@ defmodule Advent2022.Day06 do
   def part_1(buffer), do: marker_index(buffer, @start_of_signal)
 
   @doc """
-  After the rearrangement procedure completes, what crate ends up on top of
-  each stack?
+  How many characters need to be processed before the first start-of-message
+  marker is detected?
 
   ## Examples
 
@@ -56,10 +56,10 @@ defmodule Advent2022.Day06 do
   """
   def part_2(buffer), do: marker_index(buffer, @start_of_message)
 
-  defp marker_index(buffer, num_uniq) do
+  defp marker_index(buffer, marker_length) do
     buffer
     |> String.codepoints()
-    |> Enum.chunk_every(num_uniq, 1)
+    |> Enum.chunk_every(marker_length, 1)
     |> get_marker_index()
   end
 
