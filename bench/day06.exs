@@ -73,7 +73,7 @@ defmodule Day06.Bitwise do
   # Start the recursion.
   defp unique_chunk?([c | rest]), do: unique_chunk?(rest, 1 <<< (c - ?a))
 
-  # When there are no more chars it must be unique?
+  # When there are no more chars and it was never false, it must be unique?
   defp unique_chunk?([], _prev), do: true
 
   # Do the stuff.
@@ -97,7 +97,9 @@ Benchee.run(
     "Enum.uniq/1" => fn -> Day06.Uniq.part_2(input) end,
     "MapSet" => fn -> Day06.MapSet.part_2(input) end,
     "Bitwise" => fn -> Day06.Bitwise.part_2(input) end
-  }
+  },
+  time: 5,
+  memory_time: 2
 )
 
 # ------------------------------------------------------------------------------
@@ -115,22 +117,31 @@ Benchee.run(
 # Benchmark suite executing with the following configuration:
 # warmup: 2 s
 # time: 5 s
-# memory time: 0 ns
+# memory time: 2 s
 # reduction time: 0 ns
 # parallel: 1
 # inputs: none specified
-# Estimated total run time: 21 s
+# Estimated total run time: 27 s
 #
 # Benchmarking Bitwise ...
 # Benchmarking Enum.uniq/1 ...
 # Benchmarking MapSet ...
 #
 # Name                  ips        average  deviation         median         99th %
-# Bitwise            772.00        1.30 ms    ±51.53%        1.26 ms        2.05 ms
-# MapSet             214.83        4.65 ms    ±13.30%        4.54 ms        5.70 ms
-# Enum.uniq/1        140.71        7.11 ms    ±28.85%        6.97 ms       15.87 ms
+# Bitwise            802.27        1.25 ms    ±16.49%        1.26 ms        1.83 ms
+# MapSet             211.50        4.73 ms     ±9.95%        4.61 ms        5.79 ms
+# Enum.uniq/1        147.98        6.76 ms     ±6.01%        6.87 ms        7.53 ms
 #
 # Comparison:
-# Bitwise            772.00
-# MapSet             214.83 - 3.59x slower +3.36 ms
-# Enum.uniq/1        140.71 - 5.49x slower +5.81 ms
+# Bitwise            802.27
+# MapSet             211.50 - 3.79x slower +3.48 ms
+# Enum.uniq/1        147.98 - 5.42x slower +5.51 ms
+#
+# Memory usage statistics:
+#
+# Name           Memory usage
+# Bitwise             2.23 MB
+# MapSet              3.41 MB - 1.52x memory usage +1.17 MB
+# Enum.uniq/1         6.32 MB - 2.83x memory usage +4.09 MB
+#
+# **All measurements for memory usage were the same**
