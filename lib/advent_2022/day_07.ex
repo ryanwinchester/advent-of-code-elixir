@@ -4,7 +4,7 @@ defmodule Advent2022.Day07 do
 
   https://adventofcode.com/2022/day/7
   """
-alias Advent2022.Day07Parser
+  alias Advent2022.Day07Parser
 
   @doc """
   Find all of the directories with a total size of at most `100_000`.
@@ -45,9 +45,10 @@ alias Advent2022.Day07Parser
     input
     |> Day07Parser.commands()
     |> sum_files_per_dir()
-    |> Enum.filter(fn {_dir, size} -> size <= 100_000 end)
-    |> Enum.map(&elem(&1, 1))
-    |> Enum.sum()
+    |> Enum.reduce(0, fn
+      {_dir, size}, total when size <= 100_000 -> total + size
+      {_dir, _size}, total -> total
+    end)
   end
 
   defp sum_files_per_dir(filesystem) do
@@ -58,10 +59,18 @@ alias Advent2022.Day07Parser
           {:file, _name, size}, sum -> sum + size
         end)
 
-      # Add the total to every directory in this path.
-      Enum.reduce(Path.split(path), acc, fn dir, acc ->
-        Map.update(acc, dir, total, &(&1 + total))
-      end)
+      path
+      |> Path.split()
+      |> Enum.reverse()
+      |> update_full_path_totals(total, acc)
     end)
+  end
+
+  defp update_full_path_totals([], _, acc), do: acc
+
+  defp update_full_path_totals(parts, total, acc) do
+    path = Enum.reverse(parts) |> Path.join()
+    acc = Map.update(acc, path, total, &(&1 + total))
+    update_full_path_totals(tl(parts), total, acc)
   end
 end

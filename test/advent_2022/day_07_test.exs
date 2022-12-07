@@ -8,7 +8,7 @@ defmodule Advent2022.Day07Test do
   end
 
   test "Part 1 - input file", %{input: input} do
-    assert Advent2022.Day07.part_1(input) == -1
+    assert Advent2022.Day07.part_1(input) == 1297683
   end
 
   # test "Part 2 - input file", %{input: input} do
