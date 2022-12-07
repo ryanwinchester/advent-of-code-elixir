@@ -31,22 +31,22 @@ defmodule Advent2022.Day07Parser do
   ### Output
 
       %{
-        "/" => [
+        ["/"] => [
           {:dir, "/d"},
           {:file, "c.dat", 8_504_156},
           {:file, "b.txt", 14_848_514},
           {:dir, "/a"}
         ],
-        "/a" => [
+        ["/", "a"] => [
           {:file, "h.lst", 62596},
           {:file, "g", 2557},
           {:file, "f", 29116},
           {:dir, "/a/e"}
         ],
-        "/a/e" => [
+        ["/", "a", "e"] => [
           {:file, "i", 584}
         ],
-        "/d" => [
+        ["/", "d"] => [
           {:file, "k", 7_214_296},
           {:file, "d.ext", 5_626_152},
           {:file, "d.log", 8_033_020},
@@ -68,14 +68,6 @@ defmodule Advent2022.Day07Parser do
   ## Commands
 
   defp commands(eos, _, acc) when eos in [@n, ""], do: acc
-
-  defp commands(<<"$ cd /", @n, rest::binary>>, _path, acc) do
-    commands(rest, ["/"], acc)
-  end
-
-  defp commands(<<"$ cd ..", @n, rest::binary>>, ["/"], acc) do
-    commands(rest, ["/"], acc)
-  end
 
   defp commands(<<"$ cd ..", @n, rest::binary>>, path, acc) do
     commands(rest, tl(path), acc)
@@ -115,7 +107,5 @@ defmodule Advent2022.Day07Parser do
     end
   end
 
-  defp path_key(path) do
-    Enum.reverse(path) |> Path.join()
-  end
+  defp path_key(path), do: Enum.reverse(path)
 end

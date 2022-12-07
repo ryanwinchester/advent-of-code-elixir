@@ -111,7 +111,7 @@ defmodule Advent2022.Day07 do
         end)
 
       # Update the totals for every dir in path.
-      Path.split(path)
+      path
       |> Enum.reverse()
       |> update_full_path_totals(total, path_totals)
     end)
@@ -121,8 +121,8 @@ defmodule Advent2022.Day07 do
   # we're done (i.e. path is empty: `[]`).
   defp update_full_path_totals([], _, path_totals), do: path_totals
 
-  defp update_full_path_totals(path, total, path_totals) do
+  defp update_full_path_totals([_ | rest] = path, total, path_totals) do
     path_totals = Map.update(path_totals, path, total, &(&1 + total))
-    update_full_path_totals(tl(path), total, path_totals)
+    update_full_path_totals(rest, total, path_totals)
   end
 end
