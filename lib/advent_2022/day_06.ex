@@ -3,6 +3,9 @@ defmodule Advent2022.Day06 do
   --- Day 6: Tuning Trouble ---
 
   https://adventofcode.com/2022/day/6
+
+  **Note:** I parse my input in the test setup because sharing input parsing
+  every time is boring and nobody cares to see it (at least I don't).
   """
 
   @start_of_signal 4

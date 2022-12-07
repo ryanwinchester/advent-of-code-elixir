@@ -59,47 +59,63 @@ defmodule Advent2022.Day07Parser do
   @n "\n"
 
   @doc """
-  Walk through the commands, files, and directories.
+  Walk recursively through the commands, files, and directories.
+  This is the starting point.
   """
   def commands(<<"$ cd /", @n, rest::binary>>) do
     commands(rest, ["/"], %{})
   end
 
-  ## Commands
+  # ----------------------------------------------------------------------------
+  # Commands
+  # ----------------------------------------------------------------------------
 
+  # This is the end of the string. Nothing more to parse.
   defp commands(eos, _, acc) when eos in [@n, ""], do: acc
 
+  # Going up one directory.
   defp commands(<<"$ cd ..", @n, rest::binary>>, path, acc) do
     commands(rest, tl(path), acc)
   end
 
+  # Going in to the specified directory.
   defp commands(<<"$ cd ", rest::binary>>, path, acc) do
     [dir, rest] = String.split(rest, @n, parts: 2)
     commands(rest, [dir | path], acc)
   end
 
+  # Listing the contents of the directory.
   defp commands(<<"$ ls", @n, rest::binary>>, path, acc) do
     files(rest, path, acc)
   end
 
-  ## Files & Dirs
+  # ----------------------------------------------------------------------------
+  # Files & Dirs
+  # ----------------------------------------------------------------------------
 
+  # No more files, back to commands.
   defp files(<<"$", _rest::binary>> = commands, path, acc) do
     commands(commands, path, acc)
   end
 
+  # For each file and directory listed, add it to the map under current path.
   defp files(files, path, acc) do
     case String.split(files, @n, parts: 2, trim: true) do
       [file, rest] ->
         file = parse_file(file, path)
         files(rest, path, Map.update(acc, path_key(path), [file], &[file | &1]))
 
+      # There are no other parts if we are at the end of the input.
+      # We can end the recursion here.
       [file] ->
         file = parse_file(file, path)
         Map.update(acc, path_key(path), [file], &[file | &1])
     end
   end
 
+  # Parse the file or dir into a tuple.
+  #  * {:file, name, size}
+  #  * {:dir, name}
   defp parse_file(file, path) do
     case String.split(file, " ") do
       ["dir", name] -> {:dir, path_key(path) |> Path.join(name)}

@@ -1,10 +1,13 @@
 defmodule Advent2022.Day07Test do
   use Advent.FileCase, async: true
 
+  alias Advent2022.Day07Parser
+
   doctest Advent2022.Day07, import: true
 
   setup do
-    {:ok, input: load_input({2022, 7})}
+    input = load_input({2022, 7}) |> Day07Parser.commands()
+    {:ok, input: input}
   end
 
   test "Part 1 - input file", %{input: input} do

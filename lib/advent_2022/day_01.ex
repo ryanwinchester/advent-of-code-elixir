@@ -3,6 +3,9 @@ defmodule Advent2022.Day01 do
   --- Day 1: Calorie Counting ---
 
   https://adventofcode.com/2022/day/1
+
+  **Note:** I parse my input in the test setup because sharing input parsing
+  every time is boring and nobody cares to see it (at least I don't).
   """
 
   @doc """

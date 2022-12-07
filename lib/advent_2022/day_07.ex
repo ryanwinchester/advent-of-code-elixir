@@ -3,9 +3,10 @@ defmodule Advent2022.Day07 do
   --- Day 7: No Space Left On Device ---
 
   https://adventofcode.com/2022/day/7
-  """
 
-  alias Advent2022.Day07Parser
+  **Note:** I parse my input in the test setup because sharing input parsing
+  every time is boring and nobody cares to see it (at least I don't).
+  """
 
   @total_space 70_000_000
   @space_required 30_000_000
@@ -16,38 +17,35 @@ defmodule Advent2022.Day07 do
 
   ## Examples
 
-      iex> input = \"""
-      ...>   $ cd /
-      ...>   $ ls
-      ...>   dir a
-      ...>   14848514 b.txt
-      ...>   8504156 c.dat
-      ...>   dir d
-      ...>   $ cd a
-      ...>   $ ls
-      ...>   dir e
-      ...>   29116 f
-      ...>   2557 g
-      ...>   62596 h.lst
-      ...>   $ cd e
-      ...>   $ ls
-      ...>   584 i
-      ...>   $ cd ..
-      ...>   $ cd ..
-      ...>   $ cd d
-      ...>   $ ls
-      ...>   4060174 j
-      ...>   8033020 d.log
-      ...>   5626152 d.ext
-      ...>   7214296 k
-      ...>   \"""
+      iex> input = %{
+      ...>   ["/"] => [
+      ...>     {:dir, "/d"},
+      ...>     {:file, "c.dat", 8_504_156},
+      ...>     {:file, "b.txt", 14_848_514},
+      ...>     {:dir, "/a"}
+      ...>   ],
+      ...>   ["/", "a"] => [
+      ...>     {:file, "h.lst", 62596},
+      ...>     {:file, "g", 2557},
+      ...>     {:file, "f", 29116},
+      ...>     {:dir, "/a/e"}
+      ...>   ],
+      ...>   ["/", "a", "e"] => [
+      ...>     {:file, "i", 584}
+      ...>   ],
+      ...>   ["/", "d"] => [
+      ...>     {:file, "k", 7_214_296},
+      ...>     {:file, "d.ext", 5_626_152},
+      ...>     {:file, "d.log", 8_033_020},
+      ...>     {:file, "j", 4_060_174}
+      ...>   ]
+      ...> }
       iex> part_1(input)
       95437
 
   """
-  def part_1(input) do
-    input
-    |> Day07Parser.commands()
+  def part_1(filesystem) do
+    filesystem
     |> sum_files_per_dir()
     |> Enum.reduce(0, fn
       {_path, size}, total when size <= 100_000 -> total + size
@@ -62,37 +60,35 @@ defmodule Advent2022.Day07 do
 
   ## Examples
 
-      iex> input = \"""
-      ...>   $ cd /
-      ...>   $ ls
-      ...>   dir a
-      ...>   14848514 b.txt
-      ...>   8504156 c.dat
-      ...>   dir d
-      ...>   $ cd a
-      ...>   $ ls
-      ...>   dir e
-      ...>   29116 f
-      ...>   2557 g
-      ...>   62596 h.lst
-      ...>   $ cd e
-      ...>   $ ls
-      ...>   584 i
-      ...>   $ cd ..
-      ...>   $ cd ..
-      ...>   $ cd d
-      ...>   $ ls
-      ...>   4060174 j
-      ...>   8033020 d.log
-      ...>   5626152 d.ext
-      ...>   7214296 k
-      ...>   \"""
+      iex> input = %{
+      ...>   ["/"] => [
+      ...>     {:dir, "/d"},
+      ...>     {:file, "c.dat", 8_504_156},
+      ...>     {:file, "b.txt", 14_848_514},
+      ...>     {:dir, "/a"}
+      ...>   ],
+      ...>   ["/", "a"] => [
+      ...>     {:file, "h.lst", 62596},
+      ...>     {:file, "g", 2557},
+      ...>     {:file, "f", 29116},
+      ...>     {:dir, "/a/e"}
+      ...>   ],
+      ...>   ["/", "a", "e"] => [
+      ...>     {:file, "i", 584}
+      ...>   ],
+      ...>   ["/", "d"] => [
+      ...>     {:file, "k", 7_214_296},
+      ...>     {:file, "d.ext", 5_626_152},
+      ...>     {:file, "d.log", 8_033_020},
+      ...>     {:file, "j", 4_060_174}
+      ...>   ]
+      ...> }
       iex> part_2(input)
       24933642
 
   """
-  def part_2(input) do
-    file_sizes = Day07Parser.commands(input) |> sum_files_per_dir()
+  def part_2(filesystem) do
+    file_sizes = sum_files_per_dir(filesystem)
     free_space = @total_space - file_sizes[["/"]]
     space_to_free = @space_required - free_space
 

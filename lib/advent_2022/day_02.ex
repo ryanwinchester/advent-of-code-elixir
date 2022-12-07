@@ -4,7 +4,8 @@ defmodule Advent2022.Day02 do
 
   https://adventofcode.com/2022/day/2
 
-  A: Rock B: Paper C: Scissors
+  **Note:** I parse my input in the test setup because sharing input parsing
+  every time is boring and nobody cares to see it (at least I don't).
   """
 
   @scores %{ROCK: 1, PAPER: 2, SCISSORS: 3, LOSE: 0, DRAW: 3, WIN: 6}

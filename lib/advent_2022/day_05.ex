@@ -3,6 +3,9 @@ defmodule Advent2022.Day05 do
   --- Day 5: Supply Stacks ---
 
   https://adventofcode.com/2022/day/5
+
+  **Note:** I parse my input in the test setup because sharing input parsing
+  every time is boring and nobody cares to see it (at least I don't).
   """
 
   @doc """
