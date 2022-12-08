@@ -1,6 +1,6 @@
 defmodule Advent2022.Day07Parser do
   @moduledoc """
-  Parser combinators for Day 07.
+  Recursive parser for Day 07.
 
   ### Input
 
@@ -62,7 +62,7 @@ defmodule Advent2022.Day07Parser do
   Walk recursively through the commands, files, and directories.
   This is the starting point.
   """
-  def commands(<<"$ cd /", @n, rest::binary>>) do
+  def input(<<"$ cd /", @n, rest::binary>>) do
     commands(rest, ["/"], %{})
   end
 

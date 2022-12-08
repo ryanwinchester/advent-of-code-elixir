@@ -6,7 +6,7 @@ defmodule Advent2022.Day07Test do
   doctest Advent2022.Day07, import: true
 
   setup do
-    input = load_input({2022, 7}) |> Day07Parser.commands()
+    input = load_input({2022, 7}) |> Day07Parser.input()
     {:ok, input: input}
   end
 
