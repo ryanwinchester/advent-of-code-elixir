@@ -25,3 +25,5 @@ advent-*.tar
 
 # Temporary files for e.g. tests
 /tmp
+
+/test/support/inputs/**/*.txt

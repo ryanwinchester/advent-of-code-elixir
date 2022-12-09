@@ -6,9 +6,13 @@ defmodule Advent.FileCase do
       defp day_string(day), do: String.pad_leading(to_string(day), 2, "0")
 
       defp load_input({year, day}) do
-        "../support/inputs/advent_#{year}/#{day_string(day)}.txt"
-        |> Path.expand(__DIR__)
-        |> File.read!()
+        file = Path.expand("../support/inputs/advent_#{year}/#{day_string(day)}.txt", __DIR__)
+
+        if File.exists?(file) do
+          File.read!(file)
+        else
+          System.fetch_env!("INPUT_#{year}_#{day_string(day)}")
+        end
       end
 
       defp parse_input(date, parser) do
