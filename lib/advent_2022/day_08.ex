@@ -8,6 +8,8 @@ defmodule Advent2022.Day08 do
   every time is boring and nobody cares to see it (at least I don't).
   """
 
+  @unit_vectors [{0, -1}, {0, 1}, {1, 0}, {-1, 0}]
+
   @doc """
   Consider your map; how many trees are visible from outside the grid?
 
@@ -27,46 +29,36 @@ defmodule Advent2022.Day08 do
   def part_1(grid) do
     x_length = Enum.filter(grid, fn {{x, _}, _} -> x == 0 end) |> Enum.count()
     y_length = Enum.filter(grid, fn {{_, y}, _} -> y == 0 end) |> Enum.count()
+    x_max = x_length - 1
+    y_max = y_length - 1
 
     visible_interior_trees =
-      for {{x, y}, _} = tree <- grid,
-          x not in [0, x_length - 1],
-          y not in [0, y_length - 1],
-            reduce: 0 do
-        acc ->
-          if visible_up(tree, grid, 0) or visible_down(tree, grid, y_length - 1) or
-              visible_left(tree, grid, 0) or visible_right(tree, grid, x_length - 1) do
-            acc + 1
-          else
-            acc
-          end
-      end
+      Enum.reduce(grid, 0, fn
+        # Ignore trees on the edges.
+        {{x, _}, _}, count when x in [0, x_max] -> count
+        {{_, y}, _}, count when y in [0, y_max] -> count
+
+        # Count the interior trees.
+        tree, count ->
+          visible = Enum.reduce(@unit_vectors, false, &(&2 or visible_direction(tree, elem(tree, 0), &1, grid)))
+          if visible, do: count + 1, else: count
+      end)
 
     2 * x_length + 2 * y_length - 4 + visible_interior_trees
   end
 
-  defp visible_up({{x, y0}, z}, grid, edge) do
-    Enum.reduce_while(y0-1..edge, true, fn y, _ ->
-      if grid[{x, y}] < z, do: {:cont, true}, else: {:halt, false}
-    end)
-  end
+  defp visible_direction({_, tree_height} = original, point, unit_vector, grid) do
+    case grid[add(point, unit_vector)] do
+      # We've reached the edge. We're visible!
+      nil -> true
 
-  defp visible_down({{x, y0}, z}, grid, edge) do
-    Enum.reduce_while(y0+1..edge, true, fn y, _ ->
-      if grid[{x, y}] < z, do: {:cont, true}, else: {:halt, false}
-    end)
-  end
+      # We've reached a blocking tree. Not visible
+      height when height >= tree_height -> false
 
-  defp visible_left({{x0, y}, z}, grid, edge) do
-    Enum.reduce_while(x0-1..edge, true, fn x, _ ->
-      if grid[{x, y}] < z, do: {:cont, true}, else: {:halt, false}
-    end)
-  end
-
-  defp visible_right({{x0, y}, z}, grid, edge) do
-    Enum.reduce_while(x0+1..edge, true, fn x, _ ->
-      if grid[{x, y}] < z, do: {:cont, true}, else: {:halt, false}
-    end)
+      _ ->
+        # We can keep going. Increment the score and continue in this direction.
+        visible_direction(original, add(point, unit_vector), unit_vector, grid)
+    end
   end
 
   @doc """
@@ -87,71 +79,29 @@ defmodule Advent2022.Day08 do
 
   """
   def part_2(grid) do
-    x_length = Enum.filter(grid, fn {{x, _}, _} -> x == 0 end) |> Enum.count()
-    y_length = Enum.filter(grid, fn {{_, y}, _} -> y == 0 end) |> Enum.count()
-
-    Enum.reduce(grid, %{}, fn {{x, y}, _} = tree, acc ->
-      scenic_score =
-        distance_up(tree, grid, 0)
-         * distance_down(tree, grid, y_length - 1)
-         * distance_left(tree, grid, 0)
-         * distance_right(tree, grid, x_length - 1)
-
-      Map.put(acc, {x, y}, scenic_score)
+    Enum.reduce(grid, %{}, fn tree, scores ->
+      score = Enum.reduce(@unit_vectors, 1, &(&2 * scenic_direction_score(tree, elem(tree, 0), &1, grid)))
+      Map.put(scores, tree, score)
     end)
     |> Map.values()
     |> Enum.max()
   end
 
-  defp distance_up({{_, 0}, _}, _, _), do: 0
+  defp scenic_direction_score({_, tree_height} = original, point, unit_vector, grid, score \\ 0) do
+    case grid[add(point, unit_vector)] do
+      nil ->
+        # We've reached the edge. Return the score.
+        score
 
-  defp distance_up({{x, y0}, z}, grid, edge) do
-    Enum.reduce_while(y0-1..edge, 0, fn y, d ->
-      cond do
-        grid[{x, y}] == 0 -> {:cont, d}
-        y == edge -> {:halt, d + 1}
-        grid[{x, y}] < z -> {:cont, d + 1}
-        true -> {:halt, d + 1}
-      end
-    end)
+      height when height >= tree_height ->
+        # We've reached a blocking tree. Return the score plus this tree.
+        score + 1
+
+      _ ->
+        # We can keep going. Increment the score and continue in this direction.
+        scenic_direction_score(original, add(point, unit_vector), unit_vector, grid, score + 1)
+    end
   end
 
-  defp distance_down({{_, edge}, _}, edge, _), do: 0
-
-  defp distance_down({{x, y0}, z}, grid, edge) do
-    Enum.reduce_while(y0+1..edge, 0, fn y, d ->
-      cond do
-        grid[{x, y}] == 0 -> {:cont, d}
-        y == edge -> {:halt, d + 1}
-        grid[{x, y}] < z -> {:cont, d + 1}
-        true -> {:halt, d + 1}
-      end
-    end)
-  end
-
-  defp distance_left({{0, _}, _}, _, _), do: 0
-
-  defp distance_left({{x0, y}, z}, grid, edge) do
-    Enum.reduce_while(x0-1..edge, 0, fn x, d ->
-      cond do
-        grid[{x, y}] == 0 -> {:cont, d}
-        x == edge -> {:halt, d + 1}
-        grid[{x, y}] < z -> {:cont, d + 1}
-        true -> {:halt, d + 1}
-      end
-    end)
-  end
-
-  defp distance_right({{edge, _}, _}, edge, _), do: 0
-
-  defp distance_right({{x0, y}, z}, grid, edge) do
-    Enum.reduce_while(x0+1..edge, 0, fn x, d ->
-      cond do
-        grid[{x, y}] == 0 -> {:cont, d}
-        x == edge -> {:halt, d + 1}
-        grid[{x, y}] < z -> {:cont, d + 1}
-        true -> {:halt, d + 1}
-      end
-    end)
-  end
+  defp add({x, y}, {vx, vy}), do: {x + vx, y + vy}
 end

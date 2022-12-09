@@ -15,7 +15,6 @@ defmodule Advent2022.Day08Test do
   end
 
   test "Part 2 - input file", %{input: input} do
-    # Guessed 477945
-    assert Advent2022.Day08.part_2(input) == -1
+    assert Advent2022.Day08.part_2(input) == 590824
   end
 end
