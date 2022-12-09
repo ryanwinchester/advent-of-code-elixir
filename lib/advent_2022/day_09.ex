@@ -30,6 +30,19 @@ defmodule Advent2022.Day09 do
       iex> part_1(input)
       13
 
+      iex> input = [
+      ...>   {:R, 1}, {:R, 1}, {:R, 1}, {:R, 1},
+      ...>   {:U, 1}, {:U, 1}, {:U, 1}, {:U, 1},
+      ...>   {:L, 1}, {:L, 1}, {:L, 1},
+      ...>   {:D, 1},
+      ...>   {:R, 1}, {:R, 1}, {:R, 1}, {:R, 1},
+      ...>   {:D, 1},
+      ...>   {:L, 1}, {:L, 1}, {:L, 1}, {:L, 1}, {:L, 1},
+      ...>   {:R, 1}, {:R, 1}
+      ...> ]
+      iex> part_1(input)
+      13
+
   """
   def part_1(input) do
     input
@@ -56,7 +69,9 @@ defmodule Advent2022.Day09 do
     move(point, @unit_vectors[direction], steps)
   end
 
-  defp move_towards({x1, y1}, {x2, y2}), do: move({x1, y1}, {direction(x2, x1), direction(y2, y1)})
+  defp move_towards({x1, y1}, {x2, y2}) do
+    move({x1, y1}, {direction(x2, x1), direction(y2, y1)})
+  end
 
   defp direction(c, c), do: 0
   defp direction(c2, c1) when c2 > c1, do: 1
