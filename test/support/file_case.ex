@@ -5,6 +5,11 @@ defmodule Advent.FileCase do
     quote do
       defp day_string(day), do: String.pad_leading(to_string(day), 2, "0")
 
+      defp load_answers({year, day}) do
+        {answers, []} = Code.eval_file("../support/answers/advent_#{year}/answers.exs", __DIR__)
+        Map.fetch!(answers, day)
+      end
+
       defp load_input({year, day}) do
         file = Path.expand("../support/inputs/advent_#{year}/#{day_string(day)}.txt", __DIR__)
 

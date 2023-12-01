@@ -1,6 +1,8 @@
 defmodule Advent2021.Day05Test do
   use Advent.FileCase, async: true
 
+  @moduletag :advent_2021
+
   doctest Advent2021.Day05, import: true
 
   setup do

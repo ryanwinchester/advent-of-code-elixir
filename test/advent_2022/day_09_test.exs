@@ -1,6 +1,8 @@
 defmodule Advent2022.Day09Test do
   use Advent.FileCase, async: true
 
+  @moduletag :advent_2022
+
   alias Advent2022.Day09Parser
 
   doctest Advent2022.Day09, import: true

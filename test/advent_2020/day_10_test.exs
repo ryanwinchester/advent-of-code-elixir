@@ -1,6 +1,8 @@
 defmodule Advent2020.Day10Test do
   use Advent.FileCase, async: true
 
+  @moduletag :advent_2020
+
   alias Advent2020.Day10
 
   doctest Day10

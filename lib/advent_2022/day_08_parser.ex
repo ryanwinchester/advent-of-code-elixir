@@ -22,7 +22,7 @@ defmodule Advent2022.Day08Parser do
 
   """
 
-  @n "\n"
+  # @n "\n"
 
   @doc """
   Turn a string grid into a list of {x, y, z} coordinates.

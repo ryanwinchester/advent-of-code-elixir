@@ -9,9 +9,7 @@ defmodule Advent.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps(),
-      test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: preferred_cli_env()
+      deps: deps()
     ]
   end
 
@@ -29,25 +27,15 @@ defmodule Advent.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:nx, "~> 0.2"},
-      {:nimble_parsec, "~> 1.2"},
-      {:benchee, "~> 1.0", only: [:dev]},
-      {:excoveralls, "~> 0.15", only: [:test]}
+      {:nx, "~> 0.6"},
+      {:nimble_parsec, "~> 1.4"},
+      {:benchee, "~> 1.2", only: [:dev]},
     ]
   end
 
   defp aliases do
     [
-      test: ["test --trace"]
-    ]
-  end
-
-  defp preferred_cli_env do
-    [
-      coveralls: :test,
-      "coveralls.detail": :test,
-      "coveralls.html": :test,
-      "coveralls.post": :test
+      # test: ["test --trace"]
     ]
   end
 end
