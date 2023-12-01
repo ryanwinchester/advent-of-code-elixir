@@ -25,9 +25,9 @@ defmodule Advent2023.Day01 do
 
   """
   def part_1(input) do
-    input
-    |> Enum.map(&(first_digit(&1) * 10 + first_digit(binary_reverse(&1))))
-    |> Enum.sum()
+    Enum.reduce(input, 0, fn str, total ->
+      first_digit(str) * 10 + first_digit(binary_reverse(str)) + total
+    end)
   end
 
   defp first_digit(<<d, _rest::binary>>) when d in ?0..?9, do: d - ?0
