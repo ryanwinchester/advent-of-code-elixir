@@ -26,7 +26,7 @@ defmodule Advent2023.Day01 do
   """
   def part_1(input) do
     input
-    |> Enum.map(&Integer.undigits([first_digit(&1), first_digit(binary_reverse(&1))]))
+    |> Enum.map(&(first_digit(&1) * 10 + first_digit(binary_reverse(&1))))
     |> Enum.sum()
   end
 
@@ -79,5 +79,5 @@ defmodule Advent2023.Day01 do
   defp first_last("nine" <> rest, f, _l), do: first_last("e" <> rest, f || 9, 9)
   defp first_last(<<d, s::binary>>, f, _) when d in ?0..?9, do: first_last(s, f || d - ?0, d - ?0)
   defp first_last(<<_::binary-1, rest::binary>>, first, last), do: first_last(rest, first, last)
-  defp first_last(<<>>, first, last), do: Integer.undigits([first, last])
+  defp first_last(<<>>, first, last), do: first * 10 + last
 end
