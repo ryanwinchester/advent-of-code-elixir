@@ -19,7 +19,7 @@ defmodule Advent do
   """
   @spec input_lines(String.t()) :: [String.t()]
   def input_lines(input) do
-    String.split(input, "\n", trim: true)
+    :binary.split(input, "\n", [:global])
   end
 
   @doc """

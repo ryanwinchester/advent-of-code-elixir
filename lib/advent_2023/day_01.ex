@@ -34,7 +34,7 @@ defmodule Advent2023.Day01 do
   defp first_digit(<<_, rest::binary>>), do: first_digit(rest)
 
   # I don't care about UTF-8 or graphemes and this should perform better than
-  # list, string, or character reversing.
+  # string, list, or character reversing.
   defp binary_reverse(binary) do
     binary
     |> :binary.decode_unsigned(:little)
@@ -78,6 +78,6 @@ defmodule Advent2023.Day01 do
   defp first_last("eight" <> rest, f, _l), do: first_last("t" <> rest, f || 8, 8)
   defp first_last("nine" <> rest, f, _l), do: first_last("e" <> rest, f || 9, 9)
   defp first_last(<<d, s::binary>>, f, _) when d in ?0..?9, do: first_last(s, f || d - ?0, d - ?0)
-  defp first_last(<<_::binary-1, rest::binary>>, first, last), do: first_last(rest, first, last)
+  defp first_last(<<_, rest::binary>>, first, last), do: first_last(rest, first, last)
   defp first_last(<<>>, first, last), do: first * 10 + last
 end
