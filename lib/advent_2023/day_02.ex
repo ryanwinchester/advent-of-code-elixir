@@ -195,12 +195,13 @@ defmodule Advent2023.Day02 do
   """
   def part_2(input) do
     input
-    |> Enum.map(fn {_game_id, handfuls} ->
-      Enum.reduce(handfuls, {0, 0, 0}, fn handful, {r, g, b} ->
-        {max(handful["red"] || 0, r), max(handful["green"] || 0, g), max(handful["blue"] || 0, b)}
-      end)
+    |> Enum.map(fn {_game_id, handfuls} -> cube_powers(handfuls) end)
+    |> Enum.reduce(0, fn {r, g, b}, total -> r * g * b + total end)
+  end
+
+  defp cube_powers(handfuls) do
+    Enum.reduce(handfuls, {0, 0, 0}, fn handful, {r, g, b} ->
+      {max(handful["red"] || 0, r), max(handful["green"] || 0, g), max(handful["blue"] || 0, b)}
     end)
-    |> Enum.map(fn {r, g, b} -> r * g * b end)
-    |> Enum.sum()
   end
 end
