@@ -3,7 +3,10 @@ defmodule Advent2023.Day02Parser do
   Parser for Day 02.
   """
 
+  import NimbleParsec
+
   @doc """
+  Parser combinator for Day 02.
 
   ## Example
 
@@ -15,7 +18,7 @@ defmodule Advent2023.Day02Parser do
       ...>   Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
       ...>   '''
       iex> input(input)
-      {:ok, 
+      {:ok, [
         %{
           1 => [
             %{
@@ -90,30 +93,41 @@ defmodule Advent2023.Day02Parser do
               "green" => 2
             }
           ]
-        }
+        }], "", %{}, {6, 321}, 321
       }
 
   """
-  def input(input) do
-    {:ok,
-     input
-     |> :binary.split("\n", [:global, :trim])
-     |> Map.new(fn line ->
-       ["Game " <> id, handfuls] = :binary.split(line, ": ")
+  handful =
+    ignore(string(" "))
+    |> integer(min: 1, max: 3)
+    |> ignore(string(" "))
+    |> choice([string("red"), string("green"), string("blue")])
+    |> ignore(optional(string(",")))
+    |> post_traverse({:to_tuple, []})
+    |> times(min: 1)
+    |> reduce({Map, :new, []})
 
-       handfuls =
-         handfuls
-         |> :binary.split("; ", [:global])
-         |> Enum.map(fn handful ->
-           handful
-           |> :binary.split(", ", [:global])
-           |> Map.new(fn h ->
-             [num, color] = :binary.split(h, " ", [:global])
-             {color, String.to_integer(num)}
-           end)
-         end)
+  game =
+    ignore(string("Game"))
+    |> ignore(string(" "))
+    |> integer(min: 1, max: 3)
+    |> ignore(string(":"))
 
-       {String.to_integer(id), handfuls}
-     end)}
+  defparsec(
+    :input,
+    game
+    |> concat(handful |> ignore(optional(string(";"))) |> times(min: 1))
+    |> ignore(string("\n"))
+    |> reduce({:game_to_tuple, []})
+    |> times(min: 1)
+    |> reduce({Map, :new, []})
+  )
+
+  defp to_tuple(rest, args, context, _line, _offset) do
+    {rest, [List.to_tuple(args)], context}
+  end
+
+  defp game_to_tuple([id | rest]) do
+    {id, rest}
   end
 end
