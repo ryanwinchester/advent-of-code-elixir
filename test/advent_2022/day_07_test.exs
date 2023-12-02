@@ -13,10 +13,10 @@ defmodule Advent2022.Day07Test do
   end
 
   test "Part 1 - input file", %{input: input} do
-    assert Advent2022.Day07.part_1(input) == 1297683
+    assert Advent2022.Day07.part_1(input) == 1_297_683
   end
 
   test "Part 2 - input file", %{input: input} do
-    assert Advent2022.Day07.part_2(input) == 5756764
+    assert Advent2022.Day07.part_2(input) == 5_756_764
   end
 end

@@ -29,7 +29,7 @@ defmodule Advent.MixProject do
     [
       {:nx, "~> 0.6"},
       {:nimble_parsec, "~> 1.4"},
-      {:benchee, "~> 1.2", only: [:dev]},
+      {:benchee, "~> 1.2", only: [:dev]}
     ]
   end
 

@@ -79,5 +79,5 @@ defmodule Advent2022.Day05Parser do
     |> times(min: 1)
     |> tag(:moves)
 
-  defparsec :input, diagram |> ignore(string("\n")) |> concat(moves), inline: true
+  defparsec(:input, diagram |> ignore(string("\n")) |> concat(moves), inline: true)
 end

@@ -35,12 +35,21 @@ defmodule Advent2022.Day08 do
     visible_interior_trees =
       Enum.reduce(grid, 0, fn
         # Ignore trees on the edges.
-        {{x, _}, _}, count when x in [0, x_max] -> count
-        {{_, y}, _}, count when y in [0, y_max] -> count
+        {{x, _}, _}, count when x in [0, x_max] ->
+          count
+
+        {{_, y}, _}, count when y in [0, y_max] ->
+          count
 
         # Count the interior trees.
         tree, count ->
-          visible = Enum.reduce(@unit_vectors, false, &(&2 or visible_direction(tree, elem(tree, 0), &1, grid)))
+          visible =
+            Enum.reduce(
+              @unit_vectors,
+              false,
+              &(&2 or visible_direction(tree, elem(tree, 0), &1, grid))
+            )
+
           if visible, do: count + 1, else: count
       end)
 
@@ -50,10 +59,12 @@ defmodule Advent2022.Day08 do
   defp visible_direction({_, tree_height} = original, point, unit_vector, grid) do
     case grid[add(point, unit_vector)] do
       # We've reached the edge. We're visible!
-      nil -> true
+      nil ->
+        true
 
       # We've reached a blocking tree. Not visible
-      height when height >= tree_height -> false
+      height when height >= tree_height ->
+        false
 
       _ ->
         # We can keep going. Increment the score and continue in this direction.
@@ -80,7 +91,13 @@ defmodule Advent2022.Day08 do
   """
   def part_2(grid) do
     Enum.reduce(grid, %{}, fn tree, scores ->
-      score = Enum.reduce(@unit_vectors, 1, &(&2 * scenic_direction_score(tree, elem(tree, 0), &1, grid)))
+      score =
+        Enum.reduce(
+          @unit_vectors,
+          1,
+          &(&2 * scenic_direction_score(tree, elem(tree, 0), &1, grid))
+        )
+
       Map.put(scores, tree, score)
     end)
     |> Map.values()

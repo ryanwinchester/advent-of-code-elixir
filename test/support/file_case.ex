@@ -21,8 +21,10 @@ defmodule Advent.FileCase do
       end
 
       defp parse_input(date, parser) do
-        {:ok, result, _, _, _, _} = load_input(date) |> parser.input()
-        {:ok, input: result}
+        case load_input(date) |> parser.input() do
+          {:ok, result, _, _, _, _} -> {:ok, input: result}
+          {:ok, result} -> result
+        end
       end
 
       defp load_input_lines(date) do

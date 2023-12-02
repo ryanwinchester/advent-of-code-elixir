@@ -37,7 +37,7 @@ defmodule Advent2022.Day04Parser do
     |> ignore(string("\n"))
     |> reduce(:to_range_pair)
 
-  defparsec :input, pair |> repeat() |> eos(), inline: true
+  defparsec(:input, pair |> repeat() |> eos(), inline: true)
 
   defp to_range_pair([a, b, c, d]), do: {Range.new(a, b), Range.new(c, d)}
 end

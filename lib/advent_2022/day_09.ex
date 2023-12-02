@@ -54,7 +54,7 @@ defmodule Advent2022.Day09 do
 
   # When the head and tail are touching, we will only move the head.
   defp travel([{dir, steps} | rest], {hx, hy} = h, {tx, ty} = t, set)
-      when hx - tx in -1..1 and hy - ty in -1..1 do
+       when (hx - tx) in -1..1 and (hy - ty) in -1..1 do
     travel(rest, move(h, dir, steps), t, MapSet.put(set, t))
   end
 
@@ -65,6 +65,7 @@ defmodule Advent2022.Day09 do
 
   defp move(from, dir_or_vec, steps \\ 1)
   defp move({x, y}, {vx, vy}, steps), do: {steps * vx + x, steps * vy + y}
+
   defp move(point, direction, steps) when direction in @directions do
     move(point, @unit_vectors[direction], steps)
   end
