@@ -97,13 +97,16 @@ defmodule Advent2023.Day02 do
   """
   def part_1(input) do
     input
-    |> Enum.filter(fn {_, handfuls} ->
-      Enum.all?(handfuls, fn h ->
-        (is_nil(h["red"]) or h["red"] <= 12) and (is_nil(h["green"]) or h["green"] <= 13) and
-          (is_nil(h["blue"]) or h["blue"] <= 14)
-      end)
-    end)
+    |> Enum.filter(fn {_, handfuls} -> game_possible?(handfuls) end)
     |> Enum.reduce(0, fn {id, _}, total -> id + total end)
+  end
+
+  defp game_possible?(handfuls) do
+    Enum.all?(handfuls, fn h ->
+      (is_nil(h["red"]) or h["red"] <= 12) and
+        (is_nil(h["green"]) or h["green"] <= 13) and
+        (is_nil(h["blue"]) or h["blue"] <= 14)
+    end)
   end
 
   @doc """
