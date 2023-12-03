@@ -24,6 +24,9 @@ defmodule Advent.FileCase do
         case load_input(date) |> parser.input() do
           {:ok, [result], _, _, _, _} -> result
           {:ok, result} -> result
+          {:error, error} -> raise error
+          :error -> raise "Unable to parse"
+          result -> result
         end
       end
 

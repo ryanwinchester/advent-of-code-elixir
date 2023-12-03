@@ -97,6 +97,12 @@ defmodule Advent2023.Day02Parser do
       }
 
   """
+  game =
+    ignore(string("Game"))
+    |> ignore(string(" "))
+    |> integer(min: 1, max: 3)
+    |> ignore(string(":"))
+
   handful =
     ignore(string(" "))
     |> integer(min: 1, max: 3)
@@ -106,12 +112,6 @@ defmodule Advent2023.Day02Parser do
     |> post_traverse({:to_tuple, []})
     |> times(min: 1)
     |> reduce({Map, :new, []})
-
-  game =
-    ignore(string("Game"))
-    |> ignore(string(" "))
-    |> integer(min: 1, max: 3)
-    |> ignore(string(":"))
 
   defparsec(
     :input,
