@@ -7,7 +7,7 @@ defmodule Advent2023.Day02Test do
   doctest Advent2023.Day02, import: true
 
   setup do
-    input = parse_input({2023, 2}, Advent2023.Day02Parser)
+    [input] = parse_input({2023, 2}, Advent2023.Day02Parser)
     answers = load_answers({2023, 2})
     {:ok, input: input, answers: answers}
   end
