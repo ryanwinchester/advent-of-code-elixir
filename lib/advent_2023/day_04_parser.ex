@@ -37,6 +37,7 @@ defmodule Advent2023.Day04Parser do
       |> integer(min: 1, max: 2),
       {:not_end, []}
     )
+    |> reduce({:list_wrap, []})
 
   game =
     ignore(string("Card"))
@@ -45,10 +46,10 @@ defmodule Advent2023.Day04Parser do
     |> ignore(optional(string(" ")))
     |> ignore(integer(min: 1, max: 3))
     |> ignore(string(":"))
-    |> concat(numbers |> times(5) |> reduce({:list_wrap, []}))
+    |> concat(numbers)
     |> ignore(string(" "))
     |> ignore(string("|"))
-    |> concat(numbers |> times(8) |> reduce({:list_wrap, []}))
+    |> concat(numbers)
     |> ignore(optional(string("\n")))
     |> reduce({List, :to_tuple, []})
     |> times(min: 1)
