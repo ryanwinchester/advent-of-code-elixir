@@ -64,7 +64,9 @@ defmodule Advent2023.Day01 do
     Enum.reduce(input, 0, &(first_last(&1) + &2))
   end
 
-  # Save the first and last digit as we recurse through the string.
+  # Recurse through the string, keeping the first and last seen digits as arguments.
+  # A digit can be a number character or a number word (e.g. 1, 2, "one", "two").
+  # Finally, we combine the first and last digit (i.e. 3, 4 combine to 34).
   # Gotcha: the last letter of a number word could be the start of another number word.
   # I concat those cases to `rest` when that is the case, and continue the recursion.
   defp first_last(string, first \\ nil, last \\ nil)
