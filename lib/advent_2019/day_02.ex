@@ -15,8 +15,8 @@ defmodule Advent2019.Day02 do
     program
     |> List.replace_at(1, 12)
     |> List.replace_at(2, 2)
-    |> run_program(0)
-    |> Enum.at(0)
+    |> run_program()
+    |> List.first()
   end
 
   @doc """
@@ -40,7 +40,7 @@ defmodule Advent2019.Day02 do
     [30, 1, 1, 4, 2, 5, 6, 0, 99]
 
   """
-  def run_program(program, pos) do
+  def run_program(program, pos \\ 0) do
     case Enum.slice(program, pos, 4) do
       [1, a, b, c] ->
         result = Enum.at(program, a) + Enum.at(program, b)
