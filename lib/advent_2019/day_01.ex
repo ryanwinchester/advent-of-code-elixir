@@ -33,7 +33,7 @@ defmodule Advent2019.Day01 do
 
   """
   def part_2(masses) do
-    Enum.reduce(masses, 0, &(fuel_by_mass(&1, 0) + &2))
+    Enum.reduce(masses, 0, &(fuel_by_mass_including_fuel(&1) + &2))
   end
 
   @doc """
@@ -54,6 +54,7 @@ defmodule Advent2019.Day01 do
       33_583
 
   """
+  def fuel_by_mass(mass) when mass <= 8, do: 0
   def fuel_by_mass(mass), do: div(mass, 3) - 2
 
   @doc """
@@ -61,23 +62,23 @@ defmodule Advent2019.Day01 do
 
   ## Examples
 
-      iex> Day01.fuel_by_mass(12, 0)
+      iex> Day01.fuel_by_mass_including_fuel(12)
       2
 
-      iex> Day01.fuel_by_mass(14, 0)
+      iex> Day01.fuel_by_mass_including_fuel(14)
       2
 
-      iex> Day01.fuel_by_mass(1969, 0)
+      iex> Day01.fuel_by_mass_including_fuel(1969)
       966
 
-      iex> Day01.fuel_by_mass(100_756, 0)
+      iex> Day01.fuel_by_mass_including_fuel(100_756)
       50_346
 
   """
-  def fuel_by_mass(mass, acc) do
+  def fuel_by_mass_including_fuel(mass, acc \\ 0) do
     case fuel_by_mass(mass) do
-      fuel when fuel <= 0 -> acc
-      fuel -> fuel_by_mass(fuel, acc + fuel)
+      0 -> acc
+      fuel -> fuel_by_mass_including_fuel(fuel, acc + fuel)
     end
   end
 end
