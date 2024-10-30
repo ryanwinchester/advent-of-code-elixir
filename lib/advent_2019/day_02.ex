@@ -11,12 +11,26 @@ defmodule Advent2019.Day02 do
 
   What value is left at position 0 after the program halts?
   """
-  def part_1(program) do
+  def part_1(program, noun \\ 12, verb \\ 2) do
     program
-    |> List.replace_at(1, 12)
-    |> List.replace_at(2, 2)
+    |> List.replace_at(1, noun)
+    |> List.replace_at(2, verb)
     |> run_program()
     |> List.first()
+  end
+
+  @doc """
+  Find the input `noun` and `verb` that cause the program to produce the given
+  output. What is `100 * noun + verb`?
+
+  (For example, if `noun=12` and `verb=2`, the answer would be `1202`.)
+  """
+  def part_2(program, output) do
+    for noun <- 0..99, verb <- 0..99, part_1(program, noun, verb) == output do
+      throw(100 * noun + verb)
+    end
+  catch
+    result -> result
   end
 
   @doc """
