@@ -24,6 +24,6 @@ defmodule Advent2019.Day02Test do
 
     output = 19_690_720
 
-    assert Day02.part_2(input, output) == 1202
+    assert Day02.part_2(input, output) == 4967
   end
 end
