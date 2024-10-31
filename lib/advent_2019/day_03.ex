@@ -1,6 +1,6 @@
 defmodule Advent2019.Day03 do
   @moduledoc """
-    --- Day 3: Crossed Wires ---
+  --- Day 3: Crossed Wires ---
 
   https://adventofcode.com/2019/day/3
   """
