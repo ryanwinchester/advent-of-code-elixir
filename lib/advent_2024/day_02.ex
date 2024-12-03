@@ -69,19 +69,12 @@ defmodule Advent2024.Day02 do
   defp safe?(_, _inc_dec, n) when n > 1, do: false
   defp safe?([_], _inc_dec, _n), do: true
   defp safe?([], _inc_dec, _n), do: true
-
-  defp safe?([a, b | rest], nil, n) when (a - b) in 1..3,
-    do: safe?([b | rest], :inc, n) or safe?([a | rest], nil, n + 1)
-
-  defp safe?([a, b | rest], nil, n) when (b - a) in 1..3,
-    do: safe?([b | rest], :dec, n) or safe?([a | rest], nil, n + 1)
-
+  defp safe?([a, b | rest], nil, n) when (a - b) in 1..3, do: safe?([b | rest], :inc, n)
+  defp safe?([a, b | rest], nil, n) when (b - a) in 1..3, do: safe?([b | rest], :dec, n)
   defp safe?([a, _b, c | rest], nil, n) when (c - a) in 1..3, do: safe?([c | rest], :dec, n + 1)
   defp safe?([_a, b, c | rest], nil, n) when (b - c) in 1..3, do: safe?([c | rest], :inc, n + 1)
   defp safe?([_a, b, c | rest], nil, n) when (c - b) in 1..3, do: safe?([c | rest], :dec, n + 1)
   defp safe?([a, b | rest], :inc, n) when (a - b) in 1..3, do: safe?([b | rest], :inc, n)
   defp safe?([a, b | rest], :dec, n) when (b - a) in 1..3, do: safe?([b | rest], :dec, n)
-
-  defp safe?([a, b | rest], inc_dec, n),
-    do: safe?([a | rest], inc_dec, n + 1) or safe?([b | rest], inc_dec, n + 1)
+  defp safe?([a, _b | rest], inc_dec, n), do: safe?([a | rest], inc_dec, n + 1)
 end

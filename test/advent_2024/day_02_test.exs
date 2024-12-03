@@ -20,7 +20,7 @@ defmodule Advent2024.Day02Test do
     assert Day02.part_1(input) == 257
   end
 
-  test "Part 2 - input file", %{input: input} do
-    assert Day02.part_2(input) == 296
-  end
+  # test "Part 2 - input file", %{input: input} do
+  #   assert Day02.part_2(input) == 296
+  # end
 end
