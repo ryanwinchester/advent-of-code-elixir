@@ -20,8 +20,38 @@ defmodule Advent.FileCase do
         end
       end
 
+      defp parse_input(date, parser) when is_function(parser) do
+        case load_input(date) |> parser.() do
+          {:ok, result, _, _, _, _} -> result
+          {:ok, result} -> result
+          {:error, error} -> raise error
+          :error -> raise "Unable to parse"
+          result -> result
+        end
+      end
+
       defp parse_input(date, parser) do
         case load_input(date) |> parser.input() do
+          {:ok, result, _, _, _, _} -> result
+          {:ok, result} -> result
+          {:error, error} -> raise error
+          :error -> raise "Unable to parse"
+          result -> result
+        end
+      end
+
+      defp parse_input_lines(date, parser) when is_function(parser) do
+        case load_input_lines(date) |> Enum.map(parser) do
+          {:ok, result, _, _, _, _} -> result
+          {:ok, result} -> result
+          {:error, error} -> raise error
+          :error -> raise "Unable to parse"
+          result -> result
+        end
+      end
+
+      defp parse_input_lines(date, parser) do
+        case load_input_lines(date) |> Enum.map(&parser.input/1) do
           {:ok, result, _, _, _, _} -> result
           {:ok, result} -> result
           {:error, error} -> raise error
